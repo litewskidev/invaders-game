@@ -9,38 +9,55 @@
 </head>
 <body>
 
+  <header>
+    <nav class="main__nav">
+      <a href="#home" class="main__nav__home">HOME</a>
+      <a href="#play" class="main__nav__play">PLAY</a>
+      <a href="#leaderboards" class="main__nav__leaderboards">LEADERBOARDS</a>
+    </nav>
+  </header>
+
   <main id="pages">
-    <div id="start-game">
-      <div class="startgame__wrapper"></div>
+    <div id="home">
+      <div class="home__wrapper"></div>
     </div>
-    <div id="game-play">
-      <div class="gameplay__wrapper"></div>
+    <div id="play">
+      <div class="play__wrapper"></div>
     </div>
-    <div id="leader-boards">
+    <div id="leaderboards">
       <div class="leaderboards__wrapper"></div>
     </div>
   </main>
 
-  <script id="template__startgame__widget" type="text/x-handlebars-template">
-    <section class="startgame__widget">
-      <div class="startgame__container">
-        <h1 class="startgame__title">INVADERS</h1>
+  <script id="template__home__widget" type="text/x-handlebars-template">
+    <section class="home__widget">
+      <div class="home__title">
+        <h1>INVADERS - GAME</h1>
+      </div>
+      <div class="home__container">
+        <!-- HOME -->
       </div>
     </section>
   </script>
 
-  <script id="template__gameplay__widget" type="text/x-handlebars-template">
-    <section class="gameplay__widget">
-      <div class="gameplay__container">
-        <h1 class="gameplay__title">DEFEAT ENEMIES</h1>
+  <script id="template__play__widget" type="text/x-handlebars-template">
+    <section class="play__widget">
+      <div class="play__title">
+        <h1>DEFEAT ENEMIES</h1>
+      </div>
+      <div class="play__container">
+        <!-- PLAY -->
       </div>
     </section>
   </script>
 
   <script id="template__leaderboards__widget" type="text/x-handlebars-template">
     <section class="leaderboards__widget">
+      <div class="leaderboards__title">
+        <h1>LEADERBOARDS</h1>
+      </div>
       <div class="leaderboards__container">
-        <h1 class="leaderboards__title">LEADERBOARDS</h1>
+        <!-- LEADERBOARDS -->
       </div>
     </section>
   </script>

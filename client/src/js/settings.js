@@ -1,26 +1,40 @@
 export const select = {
   pages : {
-    startGame: '#start-game',
-    gamePlay: '#game-play',
-    leaderBoards: '#leader-boards'
+    home: '#home',
+    play: '#play',
+    leaderboards: '#leaderboards'
   },
 
   templateOf: {
-    startGameWidget: '#template__startgame__widget',
-    gamePlayWidget: '#template__gameplay__widget',
-    leaderBoardsWidget: '#template__leaderboards__widget'
+    homeWidget: '#template__home__widget',
+    playWidget: '#template__play__widget',
+    leaderboardsWidget: '#template__leaderboards__widget'
   },
 
   wrapperOf: {
     pages: '#pages',
-    startGame: '.startgame__wrapper',
-    gamePlay: '.gameplay__wrapper',
-    LeaderBoards: '.leaderboards__wrapper'
+    home: '.home__wrapper',
+    play: '.play__wrapper',
+    leaderboards: '.leaderboards__wrapper'
   },
+
+  nav: {
+    links: '.main__nav a'
+  }
+};
+
+export const classNames = {
+  nav: {
+    active: 'active'
+  },
+
+  pages: {
+    active: 'active'
+  }
 };
 
 export const templates = {
-  startGameWidget: Handlebars.compile(document.querySelector(select.templateOf.startGameWidget).innerHTML),
-  gamePlayWidget: Handlebars.compile(document.querySelector(select.templateOf.gamePlayWidget).innerHTML),
-  leaderBoardsWidget: Handlebars.compile(document.querySelector(select.templateOf.leaderBoardsWidget).innerHTML)
+  homeWidget: Handlebars.compile(document.querySelector(select.templateOf.homeWidget).innerHTML),
+  playWidget: Handlebars.compile(document.querySelector(select.templateOf.playWidget).innerHTML),
+  leaderboardsWidget: Handlebars.compile(document.querySelector(select.templateOf.leaderboardsWidget).innerHTML)
 };

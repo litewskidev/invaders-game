@@ -1,21 +1,21 @@
 import { templates } from '../settings.js';
 
-class LeaderBoards {
+class Leaderboards {
   constructor(element) {
-    const thisLeaderBoards = this;
+    const thisLeaderboards = this;
 
-    thisLeaderBoards.element = element;
-    thisLeaderBoards.render();
+    thisLeaderboards.element = element;
+    thisLeaderboards.render();
   }
 
   render() {
-    const thisLeaderBoards = this;
+    const thisLeaderboards = this;
 
-    const generatedHTML = templates.leaderBoardsWidget();
-    thisLeaderBoards.dom = {};
-    thisLeaderBoards.dom.wrapper = thisLeaderBoards.element;
-    thisLeaderBoards.element.innerHTML = generatedHTML;
+    const generatedHTML = templates.leaderboardsWidget();
+    thisLeaderboards.dom = {};
+    thisLeaderboards.dom.wrapper = thisLeaderboards.element;
+    thisLeaderboards.element.innerHTML = generatedHTML;
   }
 }
 
-export default LeaderBoards;
+export default Leaderboards;
