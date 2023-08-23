@@ -8,13 +8,18 @@ class Player {
     thisPlayer.canvas = document.querySelector(select.play.canvas);
     thisPlayer.c = thisPlayer.canvas.getContext('2d');
 
-    //  PLAYER IMG
-    const scale = .25;
+    //  IMAGE
     const image = new Image();
     image.src = '../../images/spaceshipImg.webp';
     thisPlayer.image = image;
+
+    //  SIZE
+    const scale = .25;
     thisPlayer.width = image.width * scale;
     thisPlayer.height = image.height * scale;
+
+    //  POSITION
+    thisPlayer.rotation = 0;
 
     thisPlayer.position = {
       x: thisPlayer.canvas.width / 2 - thisPlayer.width / 2,
@@ -26,9 +31,24 @@ class Player {
       y: 0
     };
 
+    //  DRAW
     thisPlayer.draw = () => {
       const thisPlayer = this;
-      
+
+      thisPlayer.c.save();
+
+      thisPlayer.c.translate(
+        thisPlayer.position.x + thisPlayer.width / 2,
+        thisPlayer.position.y + thisPlayer.height / 2
+      );
+
+      thisPlayer.c.rotate(thisPlayer.rotation);
+
+      thisPlayer.c.translate(
+        -thisPlayer.position.x - thisPlayer.width / 2,
+        -thisPlayer.position.y - thisPlayer.height / 2
+      );
+
       thisPlayer.c.drawImage(
         thisPlayer.image,
         thisPlayer.position.x,
@@ -36,6 +56,8 @@ class Player {
         thisPlayer.width,
         thisPlayer.height
       );
+
+      thisPlayer.c.restore();
     };
 
     thisPlayer.update = () => {
