@@ -35,3 +35,59 @@ a {
     color: green;
   }
 }
+
+.shoot__btn__mobile {
+  position: absolute;
+  bottom: .5rem;
+  right: .5rem;
+  width: 4.5rem;
+  height: 4.5rem;
+  background-color: red;
+  border-radius: 50%;
+  border: 2px dotted white;
+}
+
+.movement__btns__mobile {
+  position: absolute;
+  bottom: .5rem;
+  left: .5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  overflow: hidden;
+
+  .up {
+    width: 1.5rem;
+    height: 3rem;
+    background-color: green;
+    border: 1px dotted white;
+  }
+
+  .down {
+    width: 1.5rem;
+    height: 3rem;
+    background-color: green;
+    border: 1px dotted white;
+  }
+
+  .horizontal__box {
+    display: flex;
+
+    .left {
+      width: 3rem;
+      height: 1.5rem;
+      background-color: green;
+      border: 1px dotted white;
+    }
+
+    .right {
+      width: 3rem;
+      height: 1.5rem;
+      background-color: green;
+      border: 1px dotted white;
+    }
+  }
+}

@@ -1,5 +1,6 @@
-import { select, templates } from '../settings.js';
-import Player from './Player.js';
+import { select, templates } from '../../settings.js';
+import Player from '../elements/Player.js';
+import Projectile from '../elements/Projectile.js';
 
 class Play {
   constructor(element) {
@@ -10,13 +11,20 @@ class Play {
   }
 
   initPlayer() {
+    //  CANVAS
     const canvas = document.querySelector(select.play.canvas);
     const c = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
+    //  PLAYER
     const player = new Player();
 
+    //  PROJECTILES
+    const projectiles = [];
+
+
+    //  KEYS
     const keys = {
       left: {
         pressed: false
@@ -29,17 +37,26 @@ class Play {
       },
       down: {
         pressed: false
-      },
-      shoot: {
-        pressed: false
       }
     };
 
     function animate() {
       window.requestAnimationFrame(animate);
+
       c.fillStyle = 'black';
       c.fillRect(0, 0, canvas.width, canvas.height);
+
       player.update();
+
+      projectiles.forEach((projectile, index) => {
+        if(projectile.position.y + projectile.radius <= 0) {
+          setTimeout(() => {
+            projectiles.splice(index, 1);
+          }, 0);
+        } else {
+          projectile.update();
+        }
+      });
 
       if(keys.left.pressed && player.position.x >= 0) {
         player.velocity.x = -7;
@@ -54,7 +71,7 @@ class Play {
 
       if(keys.up.pressed && player.position.y >= 0){
         player.velocity.y = -7;
-      } else if(keys.down.pressed && player.position.y <= (canvas.height - player.height)){
+      } else if(keys.down.pressed && player.position.y <= (canvas.height - player.height - 100)){
         player.velocity.y = 7;
       } else {
         player.velocity.y = 0;
@@ -81,7 +98,18 @@ class Play {
           console.log('down');
           break;
         case ' ':
-          keys.shoot.pressed = true;
+          projectiles.push(
+            new Projectile({
+              position: {
+                x: player.position.x + (player.width / 2),
+                y: player.position.y
+              },
+              velocity: {
+                x: 0,
+                y: -10
+              }
+            })
+          );
           console.log('shoot');
           break;
         }
@@ -101,14 +129,62 @@ class Play {
         case 'ArrowDown':
           keys.down.pressed = false;
           break;
-        case ' ':
-          keys.shoot.pressed = false;
-          break;
         }
       });
     }
 
+    function controlsMobile() {
+      const up = document.querySelector('#up');
+      const down = document.querySelector('#down');
+      const left = document.querySelector('#left');
+      const right = document.querySelector('#right');
+      const shoot = document.querySelector('#shoot');
+
+      up.addEventListener('touchstart', () => {
+        keys.up.pressed = true;
+      });
+      down.addEventListener('touchstart', () => {
+        keys.down.pressed = true;
+      });
+      left.addEventListener('touchstart', () => {
+        keys.left.pressed = true;
+      });
+      right.addEventListener('touchstart', () => {
+        keys.right.pressed = true;
+      });
+      shoot.addEventListener('touchstart', () => {
+        projectiles.push(
+          new Projectile({
+            position: {
+              x: player.position.x + (player.width / 2),
+              y: player.position.y
+            },
+            velocity: {
+              x: 0,
+              y: -10
+            }
+          })
+        );
+      });
+
+      up.addEventListener('touchend', () => {
+        keys.up.pressed = false;
+      });
+      down.addEventListener('touchend', () => {
+        keys.down.pressed = false;
+      });
+      left.addEventListener('touchend', () => {
+        keys.left.pressed = false;
+      });
+      right.addEventListener('touchend', () => {
+        keys.right.pressed = false;
+      });
+      shoot.addEventListener('touchend', () => {
+      });
+    }
+
     function init() {
+      controlsMobile();
       controls();
       animate();
     }

@@ -1,7 +1,7 @@
 import { classNames, select } from './settings.js';
-import Home from './components/Home.js';
-import Play from './components/Play.js';
-import Leaderboards from './components/LeaderBoards.js';
+import Home from './components/pages/Home.js';
+import Play from './components/pages/Play.js';
+import Leaderboards from './components/pages/Leaderboards.js';
 
 const app = {
 

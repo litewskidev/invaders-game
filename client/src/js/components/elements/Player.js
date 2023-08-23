@@ -1,4 +1,4 @@
-import { select } from '../settings.js';
+import { select } from '../../settings.js';
 
 class Player {
   constructor() {
@@ -14,7 +14,7 @@ class Player {
     thisPlayer.image = image;
 
     //  SIZE
-    const scale = .25;
+    const scale = .2;
     thisPlayer.width = image.width * scale;
     thisPlayer.height = image.height * scale;
 
@@ -23,7 +23,7 @@ class Player {
 
     thisPlayer.position = {
       x: thisPlayer.canvas.width / 2 - thisPlayer.width / 2,
-      y: thisPlayer.canvas.height - thisPlayer.height - 50
+      y: thisPlayer.canvas.height - thisPlayer.height - 100
     };
 
     thisPlayer.velocity = {
@@ -33,8 +33,6 @@ class Player {
 
     //  DRAW
     thisPlayer.draw = () => {
-      const thisPlayer = this;
-
       thisPlayer.c.save();
 
       thisPlayer.c.translate(
