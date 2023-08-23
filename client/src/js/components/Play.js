@@ -24,6 +24,12 @@ class Play {
       right: {
         pressed: false
       },
+      up: {
+        pressed: false
+      },
+      down: {
+        pressed: false
+      },
       shoot: {
         pressed: false
       }
@@ -36,11 +42,19 @@ class Play {
       player.update();
 
       if(keys.left.pressed && player.position.x >= 0) {
-        player.velocity.x = -8;
-      } else if (keys.right.pressed && player.position.x <= (canvas.width - player.width)) {
-        player.velocity.x = 8;
+        player.velocity.x = -7;
+      } else if(keys.right.pressed && player.position.x <= (canvas.width - player.width)) {
+        player.velocity.x = 7;
       } else {
         player.velocity.x = 0;
+      }
+
+      if(keys.up.pressed && player.position.y >= 0){
+        player.velocity.y = -7;
+      } else if(keys.down.pressed && player.position.y <= (canvas.height - player.height)){
+        player.velocity.y = 7;
+      } else {
+        player.velocity.y = 0;
       }
     }
 
@@ -54,6 +68,14 @@ class Play {
         case 'ArrowRight':
           keys.right.pressed = true;
           console.log('right');
+          break;
+        case 'ArrowUp':
+          keys.up.pressed = true;
+          console.log('up');
+          break;
+        case 'ArrowDown':
+          keys.down.pressed = true;
+          console.log('down');
           break;
         case ' ':
           keys.shoot.pressed = true;
@@ -69,6 +91,12 @@ class Play {
           break;
         case 'ArrowRight':
           keys.right.pressed = false;
+          break;
+        case 'ArrowUp':
+          keys.up.pressed = false;
+          break;
+        case 'ArrowDown':
+          keys.down.pressed = false;
           break;
         case ' ':
           keys.shoot.pressed = false;
