@@ -18,9 +18,22 @@ export const select = {
     leaderboards: '.leaderboards__wrapper'
   },
 
-  nav: {
-    links: '.main__nav a'
-  }
+  mainNav: {
+    link: '.main__nav a'
+  },
+
+  home: {
+    pageLinks: '.home-btn'
+  },
+
+  play: {
+    canvas: 'canvas',
+    pageLinks: '.play-btn'
+  },
+
+  leaderboards: {
+    pageLinks: '.leaderboards-btn'
+  },
 };
 
 export const classNames = {

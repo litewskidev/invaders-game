@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>INVADERS</title>
+  <title>INVADERS - GAME</title>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,13 +12,11 @@
   <header>
     <nav class="main__nav">
       <a href="#home" class="main__nav__home">HOME</a>
-      <a href="#play" class="main__nav__play">PLAY</a>
-      <a href="#leaderboards" class="main__nav__leaderboards">LEADERBOARDS</a>
     </nav>
   </header>
 
   <main id="pages">
-    <div id="home">
+    <div id="home" class="active">
       <div class="home__wrapper"></div>
     </div>
     <div id="play">
@@ -32,10 +30,14 @@
   <script id="template__home__widget" type="text/x-handlebars-template">
     <section class="home__widget">
       <div class="home__title">
-        <h1>INVADERS - GAME</h1>
+        <h1>INVADERS</h1>
       </div>
       <div class="home__container">
-        <!-- HOME -->
+        <!-- HOME PAGE -->
+        <nav class="home__nav">
+          <a href="#play" class="home-btn">PLAY</a>
+          <a href="#leaderboards" class="home-btn">LEADERBOARDS</a>
+        </nav>
       </div>
     </section>
   </script>
@@ -46,7 +48,8 @@
         <h1>DEFEAT ENEMIES</h1>
       </div>
       <div class="play__container">
-        <!-- PLAY -->
+        <!-- PLAY CANVAS -->
+        <canvas></canvas>
       </div>
     </section>
   </script>
@@ -57,7 +60,7 @@
         <h1>LEADERBOARDS</h1>
       </div>
       <div class="leaderboards__container">
-        <!-- LEADERBOARDS -->
+        <!-- LEADERBOARDS PAGE-->
       </div>
     </section>
   </script>
