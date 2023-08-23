@@ -23,16 +23,27 @@ class Player {
       y: 0
     };
 
-    thisPlayer.draw();
-  }
+    thisPlayer.draw = () => {
+      const thisPlayer = this;
 
-  draw() {
-    const thisPlayer = this;
+      const canvas = document.querySelector(select.play.canvas);
+      const c = canvas.getContext('2d');
 
-    const canvas = document.querySelector(select.play.canvas);
-    const c = canvas.getContext('2d');
+      c.drawImage(
+        thisPlayer.image,
+        thisPlayer.position.x,
+        thisPlayer.position.y,
+        thisPlayer.width,
+        thisPlayer.height
+      );
+    };
 
-    c.drawImage(thisPlayer.image, thisPlayer.position.x, thisPlayer.position.y, thisPlayer.width, thisPlayer.height);
+    thisPlayer.update = () => {
+      if(thisPlayer.image) {
+        thisPlayer.draw();
+        thisPlayer.position.x += thisPlayer.velocity.x;
+      }
+    };
   }
 }
 

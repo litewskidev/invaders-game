@@ -1,7 +1,5 @@
 .play__widget {
   height: 100vh;
-}
-
-canvas {
-  width: 100%;
+  width: 100vw;
+  overflow: hidden;
 }

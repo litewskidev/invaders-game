@@ -9,39 +9,80 @@ class Play {
     thisPlay.render();
   }
 
-  initCanvas() {
+  initPlayer() {
     const canvas = document.querySelector(select.play.canvas);
+    const c = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const c = canvas.getContext('2d');
-    c.fillStyle = 'black';
-    c.fillRect(0, 0, canvas.width, canvas.height);
-  }
+    const player = new Player();
 
-  initPlayer() {
+    const keys = {
+      left: {
+        pressed: false
+      },
+      right: {
+        pressed: false
+      },
+      shoot: {
+        pressed: false
+      }
+    };
+
     function animate() {
       window.requestAnimationFrame(animate);
-      new Player();
+      c.fillStyle = 'black';
+      c.fillRect(0, 0, canvas.width, canvas.height);
+      player.update();
+
+      if(keys.left.pressed && player.position.x >= 0) {
+        player.velocity.x = -8;
+      } else if (keys.right.pressed && player.position.x <= (canvas.width - player.width)) {
+        player.velocity.x = 8;
+      } else {
+        player.velocity.x = 0;
+      }
     }
 
-    animate();
-  }
+    function controls() {
+      window.addEventListener('keydown', ({ key }) => {
+        switch(key) {
+        case 'ArrowLeft':
+          keys.left.pressed = true;
+          console.log('left');
+          break;
+        case 'ArrowRight':
+          keys.right.pressed = true;
+          console.log('right');
+          break;
+        case ' ':
+          keys.shoot.pressed = true;
+          console.log('shoot');
+          break;
+        }
+      });
 
-  initControls() {
-    window.addEventListener('keydown', ({ key }) => {
-      switch(key) {
-      case 'ArrowLeft':
-        console.log('left');
-        break;
-      case 'ArrowRight':
-        console.log('right');
-        break;
-      case 'ArrowUp':
-        console.log('shoot');
-        break;
-      }
-    });
+      window.addEventListener('keyup', ({ key }) => {
+        switch(key) {
+        case 'ArrowLeft':
+          keys.left.pressed = false;
+          break;
+        case 'ArrowRight':
+          keys.right.pressed = false;
+          break;
+        case ' ':
+          keys.shoot.pressed = false;
+          break;
+        }
+      });
+    }
+
+    function init() {
+      controls();
+      animate();
+    }
+
+    init();
   }
 
   render() {
@@ -51,9 +92,7 @@ class Play {
     thisPlay.dom = {};
     thisPlay.dom.wrapper = thisPlay.element;
     thisPlay.element.innerHTML = generatedHTML;
-    thisPlay.initCanvas();
     thisPlay.initPlayer();
-    thisPlay.initControls();
   }
 }
 
