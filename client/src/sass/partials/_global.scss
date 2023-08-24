@@ -13,6 +13,9 @@
 }
 
 body {
+  height: 100dvh;
+  width: 100dvw;
+  overflow: hidden;
   margin: 0;
   padding: 0;
   font-size: 16px;
@@ -38,56 +41,102 @@ a {
 
 .shoot__btn__mobile {
   position: absolute;
-  bottom: .5rem;
-  right: .5rem;
-  width: 4.5rem;
-  height: 4.5rem;
-  background-color: red;
+  bottom: 1rem;
+  right: 1rem;
+  width: 5.5rem;
+  height: 5.5rem;
+  background-color: rgb(197, 5, 5);
   border-radius: 50%;
   border: 2px dotted white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    color: white;
+    font-size: 3rem;
+  }
 }
 
 .movement__btns__mobile {
   position: absolute;
-  bottom: .5rem;
-  left: .5rem;
+  bottom: 1rem;
+  left: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 4.5rem;
-  height: 4.5rem;
+  width: 7rem;
+  height: 7.5rem;
   overflow: hidden;
 
   .up {
-    width: 1.5rem;
-    height: 3rem;
-    background-color: green;
+    width: 2.5rem;
+    height: 4rem;
+    background-color: rgb(5, 109, 36);
     border: 1px dotted white;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    h1 {
+      transform: rotate(90deg);
+      margin-left: .35rem;
+      color: white;
+      font-size: 2rem;
+    }
   }
 
   .down {
-    width: 1.5rem;
-    height: 3rem;
-    background-color: green;
+    width: 2.5rem;
+    height: 4rem;
+    background-color: rgb(5, 109, 36);
     border: 1px dotted white;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    h1 {
+      transform: rotate(-90deg);
+      margin-left: -.35rem;
+      color: white;
+      font-size: 2rem;
+    }
   }
 
   .horizontal__box {
     display: flex;
 
     .left {
-      width: 3rem;
-      height: 1.5rem;
+      width: 3.5rem;
+      height: 2.5rem;
       background-color: green;
       border: 1px dotted white;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+
+      h1 {
+        margin-top: -.2rem;
+        color: white;
+        font-size: 2rem;
+      }
     }
 
     .right {
-      width: 3rem;
-      height: 1.5rem;
+      width: 3.5rem;
+      height: 2.5rem;
       background-color: green;
       border: 1px dotted white;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+
+      h1 {
+        margin-top: -.2rem;
+        color: white;
+        font-size: 2rem;
+      }
     }
   }
 }

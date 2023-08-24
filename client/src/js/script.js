@@ -5,19 +5,6 @@ import Leaderboards from './components/pages/Leaderboards.js';
 
 const app = {
 
-  initBackHome: function() {
-    const thisApp = this;
-
-    thisApp.mainNavLink = document.querySelector(select.mainNav.link);
-    thisApp.mainNavLink.addEventListener('click', function(event) {
-      const clickedElement = this;
-      event.preventDefault();
-
-      const id = clickedElement.getAttribute('href').replace('#', '');
-      thisApp.activatePage(id);
-    });
-  },
-
   activatePage: function(pageId) {
     const thisApp = this;
 
@@ -69,11 +56,24 @@ const app = {
     }
   },
 
+  initBackHome: function() {
+    const thisApp = this;
+
+    thisApp.mainNavLink = document.querySelector(select.mainNav.link);
+    thisApp.mainNavLink.addEventListener('click', function(event) {
+      const clickedElement = this;
+      event.preventDefault();
+
+      const id = clickedElement.getAttribute('href').replace('#', '');
+      thisApp.activatePage(id);
+    });
+  },
+
   init: function() {
     const thisApp = this;
 
-    thisApp.initBackHome();
     thisApp.initHome();
+    thisApp.initBackHome();
   }
 };
 

@@ -14,7 +14,7 @@ class Player {
     thisPlayer.image = image;
 
     //  SIZE
-    const scale = .2;
+    const scale = .15;
     thisPlayer.width = image.width * scale;
     thisPlayer.height = image.height * scale;
 
@@ -23,7 +23,7 @@ class Player {
 
     thisPlayer.position = {
       x: thisPlayer.canvas.width / 2 - thisPlayer.width / 2,
-      y: thisPlayer.canvas.height - thisPlayer.height - 100
+      y: thisPlayer.canvas.height - thisPlayer.height - 140
     };
 
     thisPlayer.velocity = {

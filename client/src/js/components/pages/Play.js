@@ -17,14 +17,7 @@ class Play {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    //  PLAYER
-    const player = new Player();
-
-    //  PROJECTILES
-    const projectiles = [];
-
-
-    //  KEYS
+    //  CONTROLS
     const keys = {
       left: {
         pressed: false
@@ -39,7 +32,102 @@ class Play {
         pressed: false
       }
     };
+    function controlsDesktop() {
+      window.addEventListener('keydown', ({ key }) => {
+        switch(key) {
+        case 'ArrowLeft':
+          keys.left.pressed = true;
+          console.log('left');
+          break;
+        case 'ArrowRight':
+          keys.right.pressed = true;
+          console.log('right');
+          break;
+        case 'ArrowUp':
+          keys.up.pressed = true;
+          console.log('up');
+          break;
+        case 'ArrowDown':
+          keys.down.pressed = true;
+          console.log('down');
+          break;
+        }
+      });
 
+      window.addEventListener('keyup', ({ key }) => {
+        switch(key) {
+        case 'ArrowLeft':
+          keys.left.pressed = false;
+          break;
+        case 'ArrowRight':
+          keys.right.pressed = false;
+          break;
+        case 'ArrowUp':
+          keys.up.pressed = false;
+          break;
+        case 'ArrowDown':
+          keys.down.pressed = false;
+          break;
+        }
+      });
+    }
+    function controlsMobile() {
+      const up = document.querySelector('#up');
+      const down = document.querySelector('#down');
+      const left = document.querySelector('#left');
+      const right = document.querySelector('#right');
+
+      up.addEventListener('touchstart', () => {
+        keys.up.pressed = true;
+      });
+      down.addEventListener('touchstart', () => {
+        keys.down.pressed = true;
+      });
+      left.addEventListener('touchstart', () => {
+        keys.left.pressed = true;
+      });
+      right.addEventListener('touchstart', () => {
+        keys.right.pressed = true;
+      });
+
+      up.addEventListener('touchend', () => {
+        keys.up.pressed = false;
+      });
+      down.addEventListener('touchend', () => {
+        keys.down.pressed = false;
+      });
+      left.addEventListener('touchend', () => {
+        keys.left.pressed = false;
+      });
+      right.addEventListener('touchend', () => {
+        keys.right.pressed = false;
+      });
+    }
+
+    //  PLAYER
+    const player = new Player();
+
+    //  PROJECTILES
+    const projectiles = [];
+    let projectilesFrequency = 800;
+    function projectilesDraw() {
+      setInterval(() => {
+        projectiles.push(
+          new Projectile({
+            position: {
+              x: player.position.x + (player.width / 2),
+              y: player.position.y
+            },
+            velocity: {
+              x: 0,
+              y: -10
+            }
+          })
+        );
+      }, projectilesFrequency);
+    }
+
+    //  ANIMATE
     function animate() {
       window.requestAnimationFrame(animate);
 
@@ -71,121 +159,18 @@ class Play {
 
       if(keys.up.pressed && player.position.y >= 0){
         player.velocity.y = -7;
-      } else if(keys.down.pressed && player.position.y <= (canvas.height - player.height - 100)){
+      } else if(keys.down.pressed && player.position.y <= (canvas.height - player.height - 140)){
         player.velocity.y = 7;
       } else {
         player.velocity.y = 0;
       }
     }
 
-    function controls() {
-      window.addEventListener('keydown', ({ key }) => {
-        switch(key) {
-        case 'ArrowLeft':
-          keys.left.pressed = true;
-          console.log('left');
-          break;
-        case 'ArrowRight':
-          keys.right.pressed = true;
-          console.log('right');
-          break;
-        case 'ArrowUp':
-          keys.up.pressed = true;
-          console.log('up');
-          break;
-        case 'ArrowDown':
-          keys.down.pressed = true;
-          console.log('down');
-          break;
-        case ' ':
-          projectiles.push(
-            new Projectile({
-              position: {
-                x: player.position.x + (player.width / 2),
-                y: player.position.y
-              },
-              velocity: {
-                x: 0,
-                y: -10
-              }
-            })
-          );
-          console.log('shoot');
-          break;
-        }
-      });
-
-      window.addEventListener('keyup', ({ key }) => {
-        switch(key) {
-        case 'ArrowLeft':
-          keys.left.pressed = false;
-          break;
-        case 'ArrowRight':
-          keys.right.pressed = false;
-          break;
-        case 'ArrowUp':
-          keys.up.pressed = false;
-          break;
-        case 'ArrowDown':
-          keys.down.pressed = false;
-          break;
-        }
-      });
-    }
-
-    function controlsMobile() {
-      const up = document.querySelector('#up');
-      const down = document.querySelector('#down');
-      const left = document.querySelector('#left');
-      const right = document.querySelector('#right');
-      const shoot = document.querySelector('#shoot');
-
-      up.addEventListener('touchstart', () => {
-        keys.up.pressed = true;
-      });
-      down.addEventListener('touchstart', () => {
-        keys.down.pressed = true;
-      });
-      left.addEventListener('touchstart', () => {
-        keys.left.pressed = true;
-      });
-      right.addEventListener('touchstart', () => {
-        keys.right.pressed = true;
-      });
-      shoot.addEventListener('touchstart', () => {
-        projectiles.push(
-          new Projectile({
-            position: {
-              x: player.position.x + (player.width / 2),
-              y: player.position.y
-            },
-            velocity: {
-              x: 0,
-              y: -10
-            }
-          })
-        );
-      });
-
-      up.addEventListener('touchend', () => {
-        keys.up.pressed = false;
-      });
-      down.addEventListener('touchend', () => {
-        keys.down.pressed = false;
-      });
-      left.addEventListener('touchend', () => {
-        keys.left.pressed = false;
-      });
-      right.addEventListener('touchend', () => {
-        keys.right.pressed = false;
-      });
-      shoot.addEventListener('touchend', () => {
-      });
-    }
-
+    //  INIT
     function init() {
+      controlsDesktop();
       controlsMobile();
-      controls();
+      projectilesDraw();
       animate();
     }
 
