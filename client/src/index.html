@@ -5,9 +5,9 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="preload" href="/images/spaceshipImg.webp" as="image">
+  <link rel="preload" href="/images/player/spaceshipImg.webp" as="image">
+  <link rel="preload" href="/images/enemies/3.webp" as="image">
 </head>
 <body>
 
@@ -49,25 +49,14 @@
       <!-- PLAY CANVAS -->
       <canvas></canvas>
 
-      <div id="shoot" class="shoot__btn__mobile">
-        <h1>&#8283;</h1>
-      </div>
-
+      <!-- MOBILE MOVEMENT -->
       <div class="movement__btns__mobile">
-        <div id="up" class="up">
-          <h1>&#171;</h1>
-        </div>
+        <button id="up" class="up"></button>
         <div class="horizontal__box">
-          <div id="left" class="left">
-            <h1>&#171;</h1>
-          </div>
-          <div id="right" class="right">
-            <h1>&#187;</h1>
-          </div>
+          <button id="left" class="left"></button>
+          <button id="right" class="right"></button>
         </div>
-        <div id="down" class="down">
-          <h1>&#171;</h1>
-        </div>
+        <button id="down" class="down"></button>
       </div>
     </section>
   </script>

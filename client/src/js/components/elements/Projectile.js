@@ -7,7 +7,7 @@ class Projectile {
     //  POSITION
     thisProjectile.position = position;
     thisProjectile.velocity = velocity;
-    thisProjectile.radius = 3;
+    thisProjectile.radius = 2;
 
     //  CANVAS
     thisProjectile.canvas = document.querySelector(select.play.canvas);

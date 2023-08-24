@@ -1,4 +1,6 @@
 import { select, templates } from '../../settings.js';
+import Enemy from '../elements/Enemy.js';
+import EnemyGrid from '../elements/EnemyGrid.js';
 import Player from '../elements/Player.js';
 import Projectile from '../elements/Projectile.js';
 
@@ -105,7 +107,29 @@ class Play {
     }
 
     //  PLAYER
-    const player = new Player();
+    let bottomMargin;
+    let velocityXLeft;
+    let velocityXRight;
+    let velocityYUp;
+    let velocityYDown;
+
+    if(window.innerWidth <= 540) {
+      bottomMargin = 190;
+      velocityXLeft = -5;
+      velocityXRight = 5;
+      velocityYUp = -5;
+      velocityYDown = 5;
+    } else {
+      bottomMargin= 50;
+      velocityXLeft = -7;
+      velocityXRight = 7;
+      velocityYUp = -7;
+      velocityYDown = 7;
+    }
+    const player = new Player(bottomMargin);
+
+    //  GRIDS OF ENEMIES
+    const enemyGrids = [new EnemyGrid];
 
     //  PROJECTILES
     const projectiles = [];
@@ -120,7 +144,7 @@ class Play {
             },
             velocity: {
               x: 0,
-              y: -10
+              y: -12
             }
           })
         );
@@ -131,11 +155,14 @@ class Play {
     function animate() {
       window.requestAnimationFrame(animate);
 
+      //  canvas
       c.fillStyle = 'black';
       c.fillRect(0, 0, canvas.width, canvas.height);
 
+      //  player
       player.update();
 
+      //  projectiles
       projectiles.forEach((projectile, index) => {
         if(projectile.position.y + projectile.radius <= 0) {
           setTimeout(() => {
@@ -146,21 +173,30 @@ class Play {
         }
       });
 
+      //  grids of enemy
+      enemyGrids.forEach(grid => {
+        grid.update();
+        grid.enemies.forEach(enemy => {
+          enemy.update();
+        });
+      });
+
+
       if(keys.left.pressed && player.position.x >= 0) {
-        player.velocity.x = -7;
+        player.velocity.x = velocityXLeft;
         player.rotation = -.10;
       } else if(keys.right.pressed && player.position.x <= (canvas.width - player.width)) {
-        player.velocity.x = 7;
-        player.rotation = .10;
+        player.velocity.x = velocityXRight;
+        player.rotation = .12;
       } else {
         player.velocity.x = 0;
         player.rotation = 0;
       }
 
-      if(keys.up.pressed && player.position.y >= 0){
-        player.velocity.y = -7;
-      } else if(keys.down.pressed && player.position.y <= (canvas.height - player.height - 140)){
-        player.velocity.y = 7;
+      if(keys.up.pressed && player.position.y >= 0) {
+        player.velocity.y = velocityYUp;
+      } else if(keys.down.pressed && player.position.y <= (canvas.height - player.height - bottomMargin)) {
+        player.velocity.y = velocityYDown;
       } else {
         player.velocity.y = 0;
       }

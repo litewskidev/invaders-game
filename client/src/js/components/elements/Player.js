@@ -1,8 +1,9 @@
 import { select } from '../../settings.js';
 
 class Player {
-  constructor() {
+  constructor(bottomMargin) {
     const thisPlayer = this;
+    thisPlayer.margin = bottomMargin;
 
     //  CANVAS
     thisPlayer.canvas = document.querySelector(select.play.canvas);
@@ -10,22 +11,27 @@ class Player {
 
     //  IMAGE
     const image = new Image();
-    image.src = '../../images/spaceshipImg.webp';
-    thisPlayer.image = image;
+    image.src = '../../images/player/spaceshipImg.webp';
 
-    //  SIZE
-    const scale = .15;
-    thisPlayer.width = image.width * scale;
-    thisPlayer.height = image.height * scale;
-
-    //  POSITION
-    thisPlayer.rotation = 0;
-
-    thisPlayer.position = {
-      x: thisPlayer.canvas.width / 2 - thisPlayer.width / 2,
-      y: thisPlayer.canvas.height - thisPlayer.height - 140
+    //  SIZE & POSITION
+    image.onload = () => {
+      let scale;
+      if(window.innerWidth <= 540) {
+        scale = .3;
+      } else {
+        scale = .50;
+      }
+      thisPlayer.image = image;
+      thisPlayer.width = image.width * scale;
+      thisPlayer.height = image.height * scale;
+      thisPlayer.position = {
+        x: thisPlayer.canvas.width / 2 - thisPlayer.width / 2,
+        y: thisPlayer.canvas.height - thisPlayer.height - thisPlayer.margin
+      };
     };
 
+    //  ROTATION & VELOCITY
+    thisPlayer.rotation = 0;
     thisPlayer.velocity = {
       x: 0,
       y: 0
