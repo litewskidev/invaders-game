@@ -1,13 +1,12 @@
 import { select } from '../../settings.js';
 
 class Player {
-  constructor(bottomMargin) {
+  constructor(bottomMarginProp) {
     const thisPlayer = this;
-    thisPlayer.margin = bottomMargin;
 
     //  CANVAS
-    thisPlayer.canvas = document.querySelector(select.play.canvas);
-    thisPlayer.c = thisPlayer.canvas.getContext('2d');
+    const canvas = document.querySelector(select.play.canvas);
+    const c = canvas.getContext('2d');
 
     //  IMAGE
     const image = new Image();
@@ -25,8 +24,8 @@ class Player {
       thisPlayer.width = image.width * scale;
       thisPlayer.height = image.height * scale;
       thisPlayer.position = {
-        x: thisPlayer.canvas.width / 2 - thisPlayer.width / 2,
-        y: thisPlayer.canvas.height - thisPlayer.height - thisPlayer.margin
+        x: canvas.width / 2 - thisPlayer.width / 2,
+        y: canvas.height - thisPlayer.height - bottomMarginProp
       };
     };
 
@@ -39,21 +38,21 @@ class Player {
 
     //  DRAW
     thisPlayer.draw = () => {
-      thisPlayer.c.save();
+      c.save();
 
-      thisPlayer.c.translate(
+      c.translate(
         thisPlayer.position.x + thisPlayer.width / 2,
         thisPlayer.position.y + thisPlayer.height / 2
       );
 
-      thisPlayer.c.rotate(thisPlayer.rotation);
+      c.rotate(thisPlayer.rotation);
 
-      thisPlayer.c.translate(
+      c.translate(
         -thisPlayer.position.x - thisPlayer.width / 2,
         -thisPlayer.position.y - thisPlayer.height / 2
       );
 
-      thisPlayer.c.drawImage(
+      c.drawImage(
         thisPlayer.image,
         thisPlayer.position.x,
         thisPlayer.position.y,
@@ -61,7 +60,7 @@ class Player {
         thisPlayer.height
       );
 
-      thisPlayer.c.restore();
+      c.restore();
     };
 
     thisPlayer.update = () => {

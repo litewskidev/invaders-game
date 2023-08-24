@@ -1,5 +1,4 @@
 import { select, templates } from '../../settings.js';
-import Enemy from '../elements/Enemy.js';
 import EnemyGrid from '../elements/EnemyGrid.js';
 import Player from '../elements/Player.js';
 import Projectile from '../elements/Projectile.js';
@@ -128,9 +127,6 @@ class Play {
     }
     const player = new Player(bottomMargin);
 
-    //  GRIDS OF ENEMIES
-    const enemyGrids = [new EnemyGrid];
-
     //  PROJECTILES
     const projectiles = [];
     let projectilesFrequency = 800;
@@ -150,6 +146,13 @@ class Play {
         );
       }, projectilesFrequency);
     }
+
+    //  ARRAY WITH GRIDS OF ENEMIES
+    const enemyGrids = [];
+
+    //  FRAMES
+    let frames = 0;
+    let randomFrame = Math.floor(Math.random() * 1000 + 500);
 
     //  ANIMATE
     function animate() {
@@ -177,10 +180,9 @@ class Play {
       enemyGrids.forEach(grid => {
         grid.update();
         grid.enemies.forEach(enemy => {
-          enemy.update();
+          enemy.update( {velocity: grid.velocity} );
         });
       });
-
 
       if(keys.left.pressed && player.position.x >= 0) {
         player.velocity.x = velocityXLeft;
@@ -200,6 +202,16 @@ class Play {
       } else {
         player.velocity.y = 0;
       }
+
+      //  generate grids of enemies
+      if(frames % randomFrame === 0) {
+        enemyGrids.push(new EnemyGrid());
+        randomFrame = Math.floor(Math.random() * 1000 + 500);
+        frames = 0;
+        console.log(randomFrame);
+      }
+
+      frames++;
     }
 
     //  INIT

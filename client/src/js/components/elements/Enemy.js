@@ -1,31 +1,31 @@
 import { select } from '../../settings.js';
 
 class Enemy {
-  constructor(enemy, {position} ) {
+  constructor(enemyProp, {positionProp}) {
     const thisEnemy = this;
 
     //  CANVAS
-    thisEnemy.canvas = document.querySelector(select.play.canvas);
-    thisEnemy.c = thisEnemy.canvas.getContext('2d');
+    const canvas = document.querySelector(select.play.canvas);
+    const c = canvas.getContext('2d');
 
     //  IMAGE
     const image = new Image();
-    image.src = `../../images/enemies/${enemy}.webp`;
+    image.src = `../../images/enemies/${enemyProp}.webp`;
 
     //  SIZE & POSITION
     image.onload = () => {
       let scale;
       if(window.innerWidth <= 540) {
-        scale = .25;
+        scale = .20;
       } else {
-        scale = .45;
+        scale = .40;
       }
       thisEnemy.image = image;
       thisEnemy.width = image.width * scale;
       thisEnemy.height = image.height * scale;
       thisEnemy.position = {
-        x: position.x,
-        y: position.y
+        x: positionProp.x,
+        y: positionProp.y
       };
     };
 
@@ -38,36 +38,20 @@ class Enemy {
 
     //  DRAW
     thisEnemy.draw = () => {
-      thisEnemy.c.save();
-
-      thisEnemy.c.translate(
-        thisEnemy.position.x + thisEnemy.width / 2,
-        thisEnemy.position.y + thisEnemy.height / 2
-      );
-
-      thisEnemy.c.rotate(thisEnemy.rotation);
-
-      thisEnemy.c.translate(
-        -thisEnemy.position.x - thisEnemy.width / 2,
-        -thisEnemy.position.y - thisEnemy.height / 2
-      );
-
-      thisEnemy.c.drawImage(
+      c.drawImage(
         thisEnemy.image,
         thisEnemy.position.x,
         thisEnemy.position.y,
         thisEnemy.width,
         thisEnemy.height
       );
-
-      thisEnemy.c.restore();
     };
 
-    thisEnemy.update = () => {
+    thisEnemy.update = ( {velocity} ) => {
       if(thisEnemy.image) {
         thisEnemy.draw();
-        thisEnemy.position.x += thisEnemy.velocity.x;
-        thisEnemy.position.y += thisEnemy.velocity.y;
+        thisEnemy.position.x += velocity.x;
+        thisEnemy.position.y += velocity.y;
       }
     };
   }

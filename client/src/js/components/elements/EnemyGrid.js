@@ -1,8 +1,48 @@
+import { select } from '../../settings.js';
 import Enemy from './Enemy.js';
 
 class EnemyGrid {
   constructor() {
     const thisEnemyGrid = this;
+
+    //  CANVAS
+    const canvas = document.querySelector(select.play.canvas);
+
+    //  ENEMIES
+    let enemySpaceX;
+    let enemySpaceY;
+    let enemyColumns;
+    let enemyRows;
+    let enemyVelocity;
+
+    if(window.innerWidth <= 540) {
+      enemyColumns = Math.floor(Math.random() * 4 + 2);
+      enemyRows = Math.floor(Math.random() * 2 + 2);
+      enemySpaceX = 55;
+      enemySpaceY = 50;
+      enemyVelocity = 1;
+    } else {
+      enemyColumns = Math.floor(Math.random() * 8 + 5);
+      enemyRows = Math.floor(Math.random() * 2 + 2);
+      enemySpaceX = 105;
+      enemySpaceY = 100;
+      enemyVelocity = 4;
+    }
+
+    const randomEnemies = () => {
+      let randomEnemy = Math.floor(Math.random() * 4 + 1);
+      return randomEnemy;
+    };
+
+    thisEnemyGrid.enemies = [];
+    for(let x = 0; x < enemyColumns; x++) {
+      for(let y = 0; y < enemyRows; y++) {
+        thisEnemyGrid.enemies.push(new Enemy(randomEnemies(), {positionProp: {
+          x: x * enemySpaceX,
+          y: y * enemySpaceY
+        }}));
+      }
+    }
 
     //  POSITION & VELOCITY
     thisEnemyGrid.position = {
@@ -10,45 +50,24 @@ class EnemyGrid {
       y: 0
     };
     thisEnemyGrid.velocity = {
-      x:0,
-      y:0
+      x: enemyVelocity,
+      y: 0
     };
 
-    //  ENEMIES
-    const enemyOne = 1;
-    const enemyTwo = 2;
-    const enemyThree = 3;
-    const enemyFour = 4;
-    const enemyBoss = 'boss';
-    let enemySpaceX;
-    let enemySpaceY;
-    let enemyNumberX;
-    let enemyNumberY;
-    if(window.innerWidth <= 540) {
-      enemyNumberX = 5;
-      enemyNumberY = 3;
-      enemySpaceX = 60;
-      enemySpaceY = 55;
-    } else {
-      enemyNumberX = 10;
-      enemyNumberY = 5;
-      enemySpaceX = 110;
-      enemySpaceY = 100;
-    }
-
-    thisEnemyGrid.enemies = [];
-    for(let x = 0; x < enemyNumberX; x++) {
-      for(let y = 0; y < enemyNumberY; y++) {
-        thisEnemyGrid.enemies.push(new Enemy(enemyThree, {position: {
-          x: x * enemySpaceX,
-          y: y * enemySpaceY
-        }}));
-      }
-    }
+    //  GRID SIZE
+    thisEnemyGrid.width = enemyColumns * enemySpaceX;
 
     //  DRAW
     thisEnemyGrid.update = () => {
+      thisEnemyGrid.position.x += thisEnemyGrid.velocity.x;
+      thisEnemyGrid.position.y += thisEnemyGrid.velocity.y;
 
+      thisEnemyGrid.velocity.y = 0;
+
+      if(thisEnemyGrid.position.x >= (canvas.width - thisEnemyGrid.width) || thisEnemyGrid.position.x <= 0) {
+        thisEnemyGrid.velocity.x = -thisEnemyGrid.velocity.x;
+        thisEnemyGrid.velocity.y = enemySpaceY;
+      }
     };
   }
 }
