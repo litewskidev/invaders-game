@@ -30,7 +30,7 @@ class EnemyGrid {
     }
 
     const randomEnemies = () => {
-      let randomEnemy = Math.floor(Math.random() * 4 + 1);
+      let randomEnemy = Math.floor(Math.random() * 3) + 1;
       return randomEnemy;
     };
 
