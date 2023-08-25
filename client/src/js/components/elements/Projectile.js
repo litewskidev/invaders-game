@@ -10,28 +10,28 @@ class Projectile {
     thisProjectile.radius = 2;
 
     //  CANVAS
-    thisProjectile.canvas = document.querySelector(select.play.canvas);
-    thisProjectile.c = thisProjectile.canvas.getContext('2d');
+    const canvas = document.querySelector(select.play.canvas);
+    const c = canvas.getContext('2d');
 
     //  DRAW
     thisProjectile.draw = () => {
-      thisProjectile.c.beginPath();
-      thisProjectile.c.arc(
+      c.beginPath();
+      c.arc(
         thisProjectile.position.x,
         thisProjectile.position.y,
         thisProjectile.radius,
         0,
         Math.PI * 2
       );
-      thisProjectile.c.fillStyle = 'white';
-      thisProjectile.c.fill();
-      thisProjectile.c.closePath();
+      c.fillStyle = 'white';
+      c.fill();
+      c.closePath();
     };
 
     thisProjectile.update = () => {
-      thisProjectile.draw();
       thisProjectile.position.x += thisProjectile.velocity.x;
       thisProjectile.position.y += thisProjectile.velocity.y;
+      thisProjectile.draw();
     };
   }
 }

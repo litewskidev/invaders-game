@@ -1,14 +1,31 @@
-.movement__btns__mobile {
+.mobile__controls__container {
   display: none;
 }
 
 @media(max-width: 540px) {
-  .movement__btns__mobile {
-    display: block;
+  .mobile__controls__container {
+    width: 100%;
+    display: flex;
     position: absolute;
+    align-items: center;
+    justify-content: space-between;
     bottom: 1.5rem;
-    left: 50%;
-    transform: translate(-50%);
+    padding: 0 1rem;
+  }
+
+  .shoot__btn__mobile {
+    width: 7rem;
+    height: 7rem;
+    overflow: hidden;
+    cursor: default;
+    border: 1px dotted white;
+    border-radius: 50%;
+    background-color: rgb(184, 64, 64);
+    box-shadow: 0px 0px 10px rgb(168, 217, 226);
+  }
+
+
+  .movement__btns__mobile {
     display: flex;
     flex-direction: column;
     justify-content: center;

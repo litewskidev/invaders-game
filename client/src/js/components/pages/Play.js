@@ -18,6 +18,54 @@ class Play {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
+
+    //  PLAYER
+    let bottomMargin;
+    let velocityXLeft;
+    let velocityXRight;
+    let velocityYUp;
+    let velocityYDown;
+
+    if(window.innerWidth <= 540) {
+      bottomMargin = 190;
+      velocityXLeft = -5;
+      velocityXRight = 5;
+      velocityYUp = -5;
+      velocityYDown = 5;
+    } else {
+      bottomMargin= 50;
+      velocityXLeft = -7;
+      velocityXRight = 7;
+      velocityYUp = -7;
+      velocityYDown = 7;
+    }
+    const player = new Player(bottomMargin);
+
+    //  ARRAY WITH GRIDS OF ENEMIES
+    const enemyGrids = [];
+
+    //  PROJECTILES
+    const projectiles = [];
+    /*  auto projectiles
+    let projectilesFrequency = 500;
+    function projectilesDraw() {
+      setInterval(() => {
+        projectiles.push(
+          new Projectile({
+            position: {
+              x: player.position.x + (player.width / 2),
+              y: player.position.y
+            },
+            velocity: {
+              x: 0,
+              y: -12
+            }
+          })
+        );
+      }, projectilesFrequency);
+    }
+    */
+
     //  CONTROLS
     const keys = {
       left: {
@@ -38,19 +86,29 @@ class Play {
         switch(key) {
         case 'ArrowLeft':
           keys.left.pressed = true;
-          console.log('left');
           break;
         case 'ArrowRight':
           keys.right.pressed = true;
-          console.log('right');
           break;
         case 'ArrowUp':
           keys.up.pressed = true;
-          console.log('up');
           break;
         case 'ArrowDown':
           keys.down.pressed = true;
-          console.log('down');
+          break;
+        case ' ':
+          projectiles.push(
+            new Projectile({
+              position: {
+                x: player.position.x + (player.width / 2),
+                y: player.position.y
+              },
+              velocity: {
+                x: 0,
+                y: -12
+              }
+            })
+          );
           break;
         }
       });
@@ -77,6 +135,7 @@ class Play {
       const down = document.querySelector('#down');
       const left = document.querySelector('#left');
       const right = document.querySelector('#right');
+      const shoot = document.querySelector('#shoot');
 
       up.addEventListener('touchstart', () => {
         keys.up.pressed = true;
@@ -89,6 +148,20 @@ class Play {
       });
       right.addEventListener('touchstart', () => {
         keys.right.pressed = true;
+      });
+      shoot.addEventListener('touchstart', () => {
+        projectiles.push(
+          new Projectile({
+            position: {
+              x: player.position.x + (player.width / 2),
+              y: player.position.y
+            },
+            velocity: {
+              x: 0,
+              y: -12
+            }
+          })
+        );
       });
 
       up.addEventListener('touchend', () => {
@@ -103,52 +176,10 @@ class Play {
       right.addEventListener('touchend', () => {
         keys.right.pressed = false;
       });
+      shoot.addEventListener('touchend', () => {
+        console.log(projectiles);
+      });
     }
-
-    //  PLAYER
-    let bottomMargin;
-    let velocityXLeft;
-    let velocityXRight;
-    let velocityYUp;
-    let velocityYDown;
-
-    if(window.innerWidth <= 540) {
-      bottomMargin = 190;
-      velocityXLeft = -5;
-      velocityXRight = 5;
-      velocityYUp = -5;
-      velocityYDown = 5;
-    } else {
-      bottomMargin= 50;
-      velocityXLeft = -7;
-      velocityXRight = 7;
-      velocityYUp = -7;
-      velocityYDown = 7;
-    }
-    const player = new Player(bottomMargin);
-
-    //  PROJECTILES
-    const projectiles = [];
-    let projectilesFrequency = 800;
-    function projectilesDraw() {
-      setInterval(() => {
-        projectiles.push(
-          new Projectile({
-            position: {
-              x: player.position.x + (player.width / 2),
-              y: player.position.y
-            },
-            velocity: {
-              x: 0,
-              y: -12
-            }
-          })
-        );
-      }, projectilesFrequency);
-    }
-
-    //  ARRAY WITH GRIDS OF ENEMIES
-    const enemyGrids = [];
 
     //  FRAMES
     let frames = 0;
@@ -168,19 +199,40 @@ class Play {
       //  projectiles
       projectiles.forEach((projectile, index) => {
         if(projectile.position.y + projectile.radius <= 0) {
-          setTimeout(() => {
-            projectiles.splice(index, 1);
-          }, 0);
+          projectiles.splice(index, 1);
         } else {
           projectile.update();
         }
       });
 
-      //  grids of enemy
+      //  spawn grids of enemy
       enemyGrids.forEach(grid => {
         grid.update();
-        grid.enemies.forEach(enemy => {
+        grid.enemies.forEach((enemy, e) => {
           enemy.update( {velocity: grid.velocity} );
+
+          //  collision detection / remove enemies & projectiles
+          projectiles.forEach((projectile, p) => {
+            if(projectile.position.y - projectile.radius <= enemy.position.y + enemy.height
+              && projectile.position.y + projectile.radius >= enemy.position.y
+              && projectile.position.x - projectile.radius <= enemy.position.x + enemy.width
+              && projectile.position.x + projectile.radius >= enemy.position.x
+            ) {
+              setTimeout(() => {
+                const enemyExist = grid.enemies.find(
+                  wantedEnemy => wantedEnemy === enemy
+                );
+                const projectileExist = projectiles.find(
+                  wantedProjectile => wantedProjectile === projectile
+                );
+
+                if(enemyExist && projectileExist){
+                  grid.enemies.splice(e, 1);
+                  projectiles.splice(p, 1);
+                }
+              }, 0);
+            }
+          });
         });
       });
 
@@ -208,7 +260,6 @@ class Play {
         enemyGrids.push(new EnemyGrid());
         randomFrame = Math.floor(Math.random() * 1000 + 500);
         frames = 0;
-        console.log(randomFrame);
       }
 
       frames++;
@@ -218,7 +269,7 @@ class Play {
     function init() {
       controlsDesktop();
       controlsMobile();
-      projectilesDraw();
+      //projectilesDraw();
       animate();
     }
 
