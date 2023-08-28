@@ -28,6 +28,9 @@ export const select = {
 
   play: {
     canvas: 'canvas',
+    score: '#score-qty',
+    endScore: '#end-score',
+    endModal: '#end-modal',
     pageLinks: '.play-btn'
   },
 

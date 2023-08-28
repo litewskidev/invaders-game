@@ -48,6 +48,11 @@
 
   <script id="template__play__widget" type="text/x-handlebars-template">
     <section class="play__widget">
+      <!-- SCORE -->
+      <div class="play__score__container">
+        <p>SCORE:</p>
+        <p id="score-qty">0</p>
+      </div>
       <!-- PLAY CANVAS -->
       <canvas></canvas>
 
@@ -64,6 +69,16 @@
         <div id="shoot" class="shoot__btn__mobile"></div>
       </div>
 
+      <!-- END GAME MODAL -->
+      <div id="end-modal" class="play__endgame__modal">
+        <div class="play__endgame__modal__inner">
+          <p>GAME OVER</p>
+          <div class="play__endgame__modal__score">
+            <p>SCORE:</p>
+            <p id="end-score">0</p>
+          </div>
+        </div>
+      </div>
     </section>
   </script>
 

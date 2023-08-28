@@ -12,6 +12,9 @@ class Player {
     const image = new Image();
     image.src = '../../images/player/spaceshipImg.webp';
 
+    //  OPACITY
+    thisPlayer.opacity = 1;
+
     //  SIZE & POSITION
     image.onload = () => {
       let scale;
@@ -39,7 +42,7 @@ class Player {
     //  DRAW
     thisPlayer.draw = () => {
       c.save();
-
+      c.globalAlpha = thisPlayer.opacity;
       c.translate(
         thisPlayer.position.x + thisPlayer.width / 2,
         thisPlayer.position.y + thisPlayer.height / 2
