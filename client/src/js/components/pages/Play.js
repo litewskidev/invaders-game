@@ -1,4 +1,5 @@
 import { select, templates } from '../../settings.js';
+import Background from '../elements/Background.js';
 import EnemyGrid from '../elements/EnemyGrid.js';
 import Explosion from '../elements/Explosion.js';
 import Player from '../elements/Player.js';
@@ -19,6 +20,31 @@ class Play {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
+    //  BACKGROUND
+    const background = [];
+    let starQty;
+    let starVel;
+    if(window.innerWidth <= 540) {
+      starQty = 30;
+      starVel = .15;
+    } else {
+      starQty = 60;
+      starVel = .3;
+    }
+    for(let b = 0; b < starQty; b++) {
+      background.push(new Background({
+        position: {
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height
+        },
+        velocity: {
+          x: 0,
+          y: starVel
+        },
+        style: '#D6EEFF',
+        radius: Math.random() * 2
+      }));
+    }
 
     //  PLAYER
     let bottomMargin;
@@ -85,7 +111,7 @@ class Play {
           radius: Math.random() * radius
         }));
       }
-    }
+    };
 
     //  CONTROLS
     const keys = {
@@ -217,6 +243,15 @@ class Play {
       //  canvas
       c.fillStyle = 'black';
       c.fillRect(0, 0, canvas.width, canvas.height);
+
+      //  background
+      background.forEach((star) => {
+        if(star.position.y - star.radius >= canvas.height) {
+          star.position.x = Math.random() * canvas.width;
+          star.position.y = -star.radius;
+        }
+        star.update();
+      });
 
       //  player
       player.update();

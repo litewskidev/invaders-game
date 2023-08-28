@@ -2,7 +2,7 @@ import { select } from '../../settings.js';
 import Projectile from './Projectile.js';
 
 class Enemy {
-  constructor(enemyProp, {positionProp}) {
+  constructor( enemyProp, {positionProp} ) {
     const thisEnemy = this;
 
     //  CANVAS

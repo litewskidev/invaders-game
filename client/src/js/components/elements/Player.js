@@ -1,7 +1,7 @@
 import { select } from '../../settings.js';
 
 class Player {
-  constructor(bottomMarginProp) {
+  constructor( bottomMarginProp ) {
     const thisPlayer = this;
 
     //  CANVAS

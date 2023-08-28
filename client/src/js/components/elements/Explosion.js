@@ -1,7 +1,7 @@
 import { select } from '../../settings.js';
 
 class Explosion {
-  constructor({position, velocity, style, radius}) {
+  constructor( {position, velocity, style, radius} ) {
     const thisExplosion = this;
 
     //  POSITION
@@ -38,7 +38,6 @@ class Explosion {
       thisExplosion.position.x += thisExplosion.velocity.x;
       thisExplosion.position.y += thisExplosion.velocity.y;
       thisExplosion.opacity -= .008;
-
     };
   }
 }

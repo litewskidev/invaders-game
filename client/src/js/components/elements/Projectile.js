@@ -1,7 +1,7 @@
 import { select } from '../../settings.js';
 
 class Projectile {
-  constructor({position, velocity, style, radius}) {
+  constructor( {position, velocity, style, radius} ) {
     const thisProjectile = this;
 
     //  POSITION
