@@ -1,7 +1,7 @@
 import { select } from '../../settings.js';
 
 class Projectile {
-  constructor({position, velocity}) {
+  constructor({position, velocity, style}) {
     const thisProjectile = this;
 
     //  POSITION
@@ -23,7 +23,7 @@ class Projectile {
         0,
         Math.PI * 2
       );
-      c.fillStyle = 'white';
+      c.fillStyle = style;
       c.fill();
       c.closePath();
     };

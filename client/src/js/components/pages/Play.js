@@ -46,6 +46,7 @@ class Play {
 
     //  PROJECTILES
     const projectiles = [];
+    const enemyProjectiles = [];
     /*  auto projectiles
     let projectilesFrequency = 500;
     function projectilesDraw() {
@@ -106,7 +107,8 @@ class Play {
               velocity: {
                 x: 0,
                 y: -12
-              }
+              },
+              style: 'white'
             })
           );
           break;
@@ -159,7 +161,8 @@ class Play {
             velocity: {
               x: 0,
               y: -12
-            }
+            },
+            style: 'white'
           })
         );
       });
@@ -196,7 +199,7 @@ class Play {
       //  player
       player.update();
 
-      //  projectiles
+      //  player projectiles
       projectiles.forEach((projectile, index) => {
         if(projectile.position.y + projectile.radius <= 0) {
           projectiles.splice(index, 1);
@@ -205,10 +208,22 @@ class Play {
         }
       });
 
+      //  enemy projectiles
+      enemyProjectiles.forEach((enemyProjectile, index) => {
+        if(enemyProjectile.position.y + enemyProjectile.height >= canvas.height) {
+          enemyProjectiles.splice(index, 1);
+        } else {
+          enemyProjectile.update();
+        }
+      });
+
       //  spawn grids of enemy
       enemyGrids.forEach((grid, gridIndex) => {
         grid.update();
-
+        //  spawn enemy projectiles
+        if(frames % 100 === 0 && grid.enemies.length > 0) {
+          grid.enemies[Math.floor(Math.random() * grid.enemies.length)].shoot(enemyProjectiles);
+        }
         grid.enemies.forEach((enemy, e) => {
           enemy.update( {velocity: grid.velocity} );
           //  collision detection
@@ -243,6 +258,8 @@ class Play {
           });
         });
       });
+
+
 
       if(keys.left.pressed && player.position.x >= 0) {
         player.velocity.x = velocityXLeft;

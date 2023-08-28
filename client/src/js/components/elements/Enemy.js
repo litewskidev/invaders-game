@@ -1,4 +1,5 @@
 import { select } from '../../settings.js';
+import Projectile from './Projectile.js';
 
 class Enemy {
   constructor(enemyProp, {positionProp}) {
@@ -53,6 +54,20 @@ class Enemy {
         thisEnemy.position.x += velocity.x;
         thisEnemy.position.y += velocity.y;
       }
+    };
+
+    thisEnemy.shoot = (enemyProjectiles) => {
+      enemyProjectiles.push(new Projectile({
+        position: {
+          x: thisEnemy.position.x + (thisEnemy.width / 2),
+          y: thisEnemy.position.y + thisEnemy.height
+        },
+        velocity: {
+          x: 0,
+          y: 5
+        },
+        style: 'red'
+      }));
     };
   }
 }
