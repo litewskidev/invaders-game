@@ -20,7 +20,7 @@ class EnemyGrid {
       enemyRows = Math.floor(Math.random() * 2 + 2);
       enemySpaceX = 55;
       enemySpaceY = 50;
-      enemyVelocity = 1;
+      enemyVelocity = 2;
     } else {
       enemyColumns = Math.floor(Math.random() * 8 + 5);
       enemyRows = Math.floor(Math.random() * 2 + 2);

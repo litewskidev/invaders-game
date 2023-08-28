@@ -206,18 +206,17 @@ class Play {
       });
 
       //  spawn grids of enemy
-      enemyGrids.forEach(grid => {
+      enemyGrids.forEach((grid, gridIndex) => {
         grid.update();
+
         grid.enemies.forEach((enemy, e) => {
           enemy.update( {velocity: grid.velocity} );
-
-          //  collision detection / remove enemies & projectiles
+          //  collision detection
           projectiles.forEach((projectile, p) => {
             if(projectile.position.y - projectile.radius <= enemy.position.y + enemy.height
-              && projectile.position.y + projectile.radius >= enemy.position.y
-              && projectile.position.x - projectile.radius <= enemy.position.x + enemy.width
-              && projectile.position.x + projectile.radius >= enemy.position.x
-            ) {
+            && projectile.position.y + projectile.radius >= enemy.position.y
+            && projectile.position.x - projectile.radius <= enemy.position.x + enemy.width
+            && projectile.position.x + projectile.radius >= enemy.position.x) {
               setTimeout(() => {
                 const enemyExist = grid.enemies.find(
                   wantedEnemy => wantedEnemy === enemy
@@ -225,10 +224,19 @@ class Play {
                 const projectileExist = projectiles.find(
                   wantedProjectile => wantedProjectile === projectile
                 );
-
-                if(enemyExist && projectileExist){
+                // remove enemies & projectiles
+                if(enemyExist && projectileExist) {
                   grid.enemies.splice(e, 1);
                   projectiles.splice(p, 1);
+                  // recalculate grid width
+                  if(grid.enemies.length > 0) {
+                    const firstEnemy = grid.enemies[0];
+                    const lastEnemy = grid.enemies[grid.enemies.length - 1];
+                    grid.width = lastEnemy.position.x - firstEnemy.position.x + lastEnemy.width;
+                    grid.position.x = firstEnemy.position.x;
+                  } else {
+                    enemyGrids.splice(gridIndex, 1);
+                  }
                 }
               }, 0);
             }
