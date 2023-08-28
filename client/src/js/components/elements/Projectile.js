@@ -1,13 +1,14 @@
 import { select } from '../../settings.js';
 
 class Projectile {
-  constructor({position, velocity, style}) {
+  constructor({position, velocity, style, radius}) {
     const thisProjectile = this;
 
     //  POSITION
     thisProjectile.position = position;
     thisProjectile.velocity = velocity;
-    thisProjectile.radius = 2;
+    thisProjectile.style = style;
+    thisProjectile.radius = radius;
 
     //  CANVAS
     const canvas = document.querySelector(select.play.canvas);
@@ -23,15 +24,15 @@ class Projectile {
         0,
         Math.PI * 2
       );
-      c.fillStyle = style;
+      c.fillStyle = thisProjectile.style;
       c.fill();
       c.closePath();
     };
 
     thisProjectile.update = () => {
+      thisProjectile.draw();
       thisProjectile.position.x += thisProjectile.velocity.x;
       thisProjectile.position.y += thisProjectile.velocity.y;
-      thisProjectile.draw();
     };
   }
 }

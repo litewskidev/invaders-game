@@ -1,5 +1,6 @@
 import { select, templates } from '../../settings.js';
 import EnemyGrid from '../elements/EnemyGrid.js';
+import Explosion from '../elements/Explosion.js';
 import Player from '../elements/Player.js';
 import Projectile from '../elements/Projectile.js';
 
@@ -67,6 +68,25 @@ class Play {
     }
     */
 
+    //  EXPLOSIONS
+    const explosions = [];
+    const generateExplosions = ( {obj}, qty, color, radius ) => {
+      for(let e = 0; e < qty; e++) {
+        explosions.push(new Explosion({
+          position: {
+            x: obj.position.x + (obj.width / 2),
+            y: obj.position.y + (obj.height / 2)
+          },
+          velocity : {
+            x: (Math.random() - .5) * 2.5,
+            y: (Math.random() - .5) * 2.5
+          },
+          style: color,
+          radius: Math.random() * radius
+        }));
+      }
+    }
+
     //  CONTROLS
     const keys = {
       left: {
@@ -108,7 +128,8 @@ class Play {
                 x: 0,
                 y: -12
               },
-              style: 'white'
+              style: 'white',
+              radius: 2
             })
           );
           break;
@@ -162,7 +183,8 @@ class Play {
               x: 0,
               y: -12
             },
-            style: 'white'
+            style: 'white',
+            radius: 2
           })
         );
       });
@@ -188,7 +210,7 @@ class Play {
     let frames = 0;
     let randomFrame = Math.floor(Math.random() * 1000 + 500);
 
-    //  ANIMATE
+    //  !!! ANIMATE !!!
     function animate() {
       window.requestAnimationFrame(animate);
 
@@ -215,10 +237,30 @@ class Play {
         } else {
           enemyProjectile.update();
         }
+
+        //  player collision detection
+        if(enemyProjectile.position.y - enemyProjectile.radius <= player.position.y + player.height
+        && enemyProjectile.position.y + enemyProjectile.radius >= player.position.y
+        && enemyProjectile.position.x - enemyProjectile.radius <= player.position.x + player.width
+        && enemyProjectile.position.x + enemyProjectile.radius >= player.position.x) {
+          generateExplosions({ obj: player }, 50, 'white', 2);
+          enemyProjectiles.splice(index, 1);
+        }
+      });
+
+      //  explosions
+      explosions.forEach((explosion, index) => {
+        if(explosion.opacity <= 0) {
+          setTimeout(() => {
+            explosions.splice(index, 1);
+          }, 0);
+        } else {
+          explosion.update();
+        }
       });
 
       //  spawn grids of enemy
-      enemyGrids.forEach((grid, gridIndex) => {
+      enemyGrids.forEach((grid, index) => {
         grid.update();
         //  spawn enemy projectiles
         if(frames % 100 === 0 && grid.enemies.length > 0) {
@@ -226,7 +268,7 @@ class Play {
         }
         grid.enemies.forEach((enemy, e) => {
           enemy.update( {velocity: grid.velocity} );
-          //  collision detection
+          //  enemies collision detection
           projectiles.forEach((projectile, p) => {
             if(projectile.position.y - projectile.radius <= enemy.position.y + enemy.height
             && projectile.position.y + projectile.radius >= enemy.position.y
@@ -241,6 +283,7 @@ class Play {
                 );
                 // remove enemies & projectiles
                 if(enemyExist && projectileExist) {
+                  generateExplosions({ obj: enemy }, 30, '#8B8F92', 2);  //  & generate explosion
                   grid.enemies.splice(e, 1);
                   projectiles.splice(p, 1);
                   // recalculate grid width
@@ -250,7 +293,7 @@ class Play {
                     grid.width = lastEnemy.position.x - firstEnemy.position.x + lastEnemy.width;
                     grid.position.x = firstEnemy.position.x;
                   } else {
-                    enemyGrids.splice(gridIndex, 1);
+                    enemyGrids.splice(index, 1);
                   }
                 }
               }, 0);
