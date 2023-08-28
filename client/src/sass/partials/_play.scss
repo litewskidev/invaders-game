@@ -36,21 +36,32 @@
 }
 
 .play__endgame__modal__inner {
-  width: 30%;
+  width: 35%;
   background-color: gray;
-  border-radius: 5rem;
+  border-radius: 10rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  padding: 5% 0;
+  padding: 2% 0;
 
   p {
     font-size: 4rem;
     font-weight: 900;
     color: rgb(148, 38, 38);
   }
+}
+
+.restart {
+  font-size: 1.5rem;
+  color: white;
+  border: 1px solid white;
+  border-radius: 2rem;
+  padding: .5rem 1rem;
+  margin-top: 1rem;
+  background-color: inherit;
+  cursor: pointer;
 }
 
 .play__endgame__modal__score {
@@ -172,12 +183,12 @@
   }
 
   .play__endgame__modal__inner {
-    width: 90%;
-    padding: 10% 0;
+    width: 80%;
+    padding: 5% 0;
     gap: .2rem;
 
     p {
-      font-size: 2.5rem;
+      font-size: 2rem;
     }
   }
 
@@ -185,5 +196,10 @@
     p {
       font-size: 1.2rem;
     }
+  }
+
+  .restart {
+    margin-top: .5rem;
+    font-size: 1.2rem;
   }
 }

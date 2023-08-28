@@ -19,6 +19,10 @@ class Play {
       over: false,
       active: true
     };
+    const restartBtn = document.querySelector(select.play.restartBtn);
+    restartBtn.addEventListener('click', () => {  //  restart game
+      this.render();
+    });
 
     //  SCORE
     const scoreDisplay = document.querySelector(select.play.score);
@@ -226,7 +230,7 @@ class Play {
     let frames = 0;
     let randomFrame = Math.floor(Math.random() * 1000 + 500);
 
-    //  !!! ANIMATE !!! !!! ANIMATE !!! !!! ANIMATE !!!
+    //  !!! ANIMATE !!! ANIMATE !!! ANIMATE !!! ANIMATE !!! ANIMATE !!! ANIMATE !!! ANIMATE !!! ANIMATE !!!
     function animate() {
       if(!game.active) return;
       window.requestAnimationFrame(animate);
@@ -295,7 +299,7 @@ class Play {
       enemyGrids.forEach((grid, index) => {
         grid.update();
         //  spawn enemy projectiles
-        if(frames % 100 === 0 && grid.enemies.length > 0) {
+        if(frames % 150 === 0 && grid.enemies.length > 0) {
           grid.enemies[Math.floor(Math.random() * grid.enemies.length)].shoot(enemyProjectiles);
         }
         grid.enemies.forEach((enemy, e) => {
@@ -358,7 +362,7 @@ class Play {
       //  generate grids of enemies
       if(frames % randomFrame === 0) {
         enemyGrids.push(new EnemyGrid());
-        randomFrame = Math.floor(Math.random() * 1000 + 500);
+        randomFrame = Math.floor(Math.random() * 500 + 500);
         frames = 0;
       }
 

@@ -31,6 +31,7 @@ export const select = {
     score: '#score-qty',
     endScore: '#end-score',
     endModal: '#end-modal',
+    restartBtn: '#restart-btn',
     pageLinks: '.play-btn'
   },
 
