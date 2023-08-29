@@ -7,7 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
   <link rel="preload" href="/images/player/airplane_2_14.png" as="image">
-  <link rel="preload" href="/images/projectiles/bullet_2_yellow_01.png" as="image">
+  <link rel="preload" href="/images/projectiles/bullet_player.png" as="image">
+  <link rel="preload" href="/images/projectiles/bullet_enemy.png" as="image">
   <link rel="preload" href="/images/clouds/cloud_shape_1.png" as="image">
   <link rel="preload" href="/images/clouds/cloud_shape_2.png" as="image">
   <link rel="preload" href="/images/clouds/cloud_shape_3.png" as="image">
@@ -40,16 +41,20 @@
 
   <script id="template__home__widget" type="text/x-handlebars-template">
     <section class="home__widget">
+      <div class="home__container">
+        <div class="home__container__inner">
+          <img src="./images/player/airplane_2_14.png" />
+          <div id="heart" class="heart"></div>
+        </div>
+        <!-- HOME PAGE -->
+      </div>
       <div class="home__title">
         <h1>INVADERS</h1>
       </div>
-      <div class="home__container">
-        <!-- HOME PAGE -->
-        <nav class="home__nav">
-          <a href="#play" class="home-btn">PLAY</a>
-          <a href="#leaderboards" class="home-btn">LEADERBOARDS</a>
-        </nav>
-      </div>
+      <nav class="home__nav">
+        <a href="#play" class="home-btn">PLAY</a>
+        <a href="#leaderboards" class="home-btn">LEADERBOARDS</a>
+      </nav>
     </section>
   </script>
 

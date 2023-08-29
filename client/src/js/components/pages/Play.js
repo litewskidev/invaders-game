@@ -140,8 +140,6 @@ class Play {
               x: 0,
               y: -12
             },
-            style: '',
-            radius: 2,
             site: 'player'
           })
         );
@@ -188,8 +186,6 @@ class Play {
             x: 0,
             y: -12
           },
-          style: '',
-          radius: 2,
           site: 'player'
         })
       );
@@ -276,7 +272,7 @@ class Play {
       //  enemies
       enemyGrids.forEach((grid, index) => {
         grid.update();
-        if(frames % 100 === 0 && grid.enemies.length > 0) {
+        if(frames % 130 === 0 && grid.enemies.length > 0) {
           grid.enemies[Math.floor(Math.random() * grid.enemies.length)].shoot(enemyProjectiles);
         }
         grid.enemies.forEach((enemy, e) => {
@@ -285,8 +281,8 @@ class Play {
           projectiles.forEach((projectile, p) => {
             if(projectile.position.y + 15 <= enemy.position.y + enemy.height
             && projectile.position.y + (projectile.height - 15) >= enemy.position.y
-            && projectile.position.x + 15 <= enemy.position.x + enemy.width
-            && projectile.position.x + (projectile.width - 15) >= enemy.position.x) {
+            && projectile.position.x <= enemy.position.x + enemy.width
+            && projectile.position.x + projectile.width >= enemy.position.x) {
               setTimeout(() => {
                 const enemyExist = grid.enemies.find(
                   wantedEnemy => wantedEnemy === enemy
@@ -298,7 +294,7 @@ class Play {
                 if(enemyExist && projectileExist) {
                   score += 10;
                   scoreDisplay.innerHTML = score;
-                  generateExplosions({ obj: enemy }, 30, '#8B8F92', 2);  //  & generate explosion
+                  generateExplosions({ obj: enemy }, 15, 'black', 1.5);  //  & generate explosion
                   grid.enemies.splice(e, 1);
                   projectiles.splice(p, 1);
                   // recalculate enemies grid width
@@ -332,10 +328,10 @@ class Play {
           enemyProjectile.update();
         }
         //  player collision detection & GAME OVER
-        if(enemyProjectile.position.y - enemyProjectile.radius <= player.position.y + (player.height - 15)
-        && enemyProjectile.position.y + enemyProjectile.radius >= player.position.y
-        && enemyProjectile.position.x - enemyProjectile.radius <= player.position.x + player.width
-        && enemyProjectile.position.x + enemyProjectile.radius >= player.position.x) {
+        if(enemyProjectile.position.y - 15 <= player.position.y + (player.height - 15)
+        && enemyProjectile.position.y + 15 >= player.position.y
+        && enemyProjectile.position.x <= player.position.x + player.width
+        && enemyProjectile.position.x + enemyProjectile.width >= player.position.x) {
           generateExplosions({ obj: player }, 50, 'white', 2);
           enemyProjectiles.splice(index, 1);
           player.opacity = 0;

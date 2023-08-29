@@ -1,14 +1,12 @@
 import { select } from '../../settings.js';
 
 class Projectile {
-  constructor( {position, velocity, style, radius, site}) {
+  constructor( {position, velocity, site} ) {
     const thisProjectile = this;
 
     //  POSITION
     thisProjectile.position = position;
     thisProjectile.velocity = velocity;
-    thisProjectile.style = style;
-    thisProjectile.radius = radius;
     thisProjectile.site = site;
 
     //  CANVAS
@@ -17,7 +15,7 @@ class Projectile {
 
     //  IMAGE
     const image = new Image();
-    image.src = `../../images/projectiles/bullet_2_yellow_01.png`;
+    image.src = `../../images/projectiles/bullet_${site}.png`;
     image.onload = () => {
       let scale;
       if(window.innerWidth <= 540) {
@@ -32,28 +30,13 @@ class Projectile {
 
     //  DRAW
     thisProjectile.draw = () => {
-      if(thisProjectile.site === 'enemy') {
-        c.beginPath();
-        c.arc(
-          thisProjectile.position.x,
-          thisProjectile.position.y,
-          thisProjectile.radius,
-          0,
-          Math.PI * 2
-        );
-        c.fillStyle = thisProjectile.style;
-        c.fill();
-        c.closePath();
-      }
-      if(thisProjectile.site === 'player') {
-        c.drawImage(
-          thisProjectile.image,
-          thisProjectile.position.x,
-          thisProjectile.position.y,
-          thisProjectile.width,
-          thisProjectile.height
-        );
-      }
+      c.drawImage(
+        thisProjectile.image,
+        thisProjectile.position.x,
+        thisProjectile.position.y,
+        thisProjectile.width,
+        thisProjectile.height
+      );
     };
 
     thisProjectile.update = () => {

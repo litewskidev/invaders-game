@@ -8,11 +8,12 @@
   left: 1rem;
   z-index: 99;
   display: flex;
-  gap: .5rem;
+  gap: .3rem;
 
   p {
-    color: white;
+    color: black;
     font-size: 2rem;
+    font-weight: 900;
   }
 }
 
@@ -27,7 +28,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, .5);
   z-index: 990;
   transition: all 1s ease-out;
 
@@ -51,7 +51,7 @@
   p {
     font-size: 4rem;
     font-weight: 900;
-    color: rgb(148, 38, 38);
+    color: rgb(156, 70, 70);
   }
 }
 
@@ -99,8 +99,8 @@
   }
 
   .shoot__btn__mobile {
-    width: 7rem;
-    height: 7rem;
+    width: 6rem;
+    height: 6rem;
     overflow: hidden;
     cursor: default;
     border: 1px dotted white;
