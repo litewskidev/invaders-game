@@ -55,7 +55,7 @@ class Play {
     let cloudsVel;
     if(window.innerWidth <= 540) {
       cloudsQty = 15;
-      cloudsVel = .15;
+      cloudsVel = .2;
     } else {
       cloudsQty = 30;
       cloudsVel = .3;
@@ -340,7 +340,7 @@ class Play {
             game.active = false;
             endScoreDisplay.innerHTML = score;
             endGameModal.classList.add('show');
-          }, 1000);
+          }, 800);
         }
       });
 

@@ -41,6 +41,10 @@ class Projectile {
 
     thisProjectile.update = () => {
       if(thisProjectile.image) {
+        /*  //  hitbox
+        c.fillStyle = 'rgba(0, 0, 255, 0.2)';
+        c.fillRect(thisProjectile.position.x, thisProjectile.position.y, thisProjectile.width, thisProjectile.height);
+        */
         thisProjectile.draw();
         thisProjectile.position.x += thisProjectile.velocity.x;
         thisProjectile.position.y += thisProjectile.velocity.y;

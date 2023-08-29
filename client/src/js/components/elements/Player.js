@@ -64,6 +64,10 @@ class Player {
 
     thisPlayer.update = () => {
       if(thisPlayer.image) {
+        /*  //  hitbox
+        c.fillStyle = 'rgba(0, 255, 0, 0.2)';
+        c.fillRect(thisPlayer.position.x, thisPlayer.position.y, thisPlayer.width, thisPlayer.height);
+        */
         thisPlayer.draw();
         thisPlayer.position.x += thisPlayer.velocity.x;
         thisPlayer.position.y += thisPlayer.velocity.y;

@@ -50,6 +50,10 @@ class Enemy {
 
     thisEnemy.update = ( {velocity} ) => {
       if(thisEnemy.image) {
+        /*  //  hitbox
+        c.fillStyle = 'rgba(255, 0, 0, 0.2)';
+        c.fillRect(thisEnemy.position.x, thisEnemy.position.y, thisEnemy.width, thisEnemy.height);
+        */
         thisEnemy.draw();
         thisEnemy.position.x += velocity.x;
         thisEnemy.position.y += velocity.y;

@@ -39,8 +39,9 @@
 
 .play__endgame__modal__inner {
   width: 35%;
-  background-color: gray;
-  border-radius: 10rem;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 0 15rem 15rem 15rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -51,15 +52,15 @@
   p {
     font-size: 4rem;
     font-weight: 900;
-    color: rgb(156, 70, 70);
+    color: rgb(184, 64, 64);
   }
 }
 
 .restart {
   font-size: 1.5rem;
-  color: white;
-  border: 1px solid white;
-  border-radius: 2rem;
+  color: black;
+  border: 1px solid black;
+  border-radius: 5rem 0rem 5rem 5rem;
   padding: .5rem 1rem;
   margin-top: 1rem;
   background-color: inherit;
@@ -103,10 +104,10 @@
     height: 6rem;
     overflow: hidden;
     cursor: default;
-    border: 1px dotted white;
+    border: 1px dotted black;
     border-radius: 50%;
     background-color: rgb(184, 64, 64);
-    box-shadow: 0px 0px 10px rgb(168, 217, 226);
+    box-shadow: 0px 0px 10px black;
   }
 
   .movement__btns__mobile {

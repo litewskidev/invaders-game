@@ -4,7 +4,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.5rem;
+  position: relative;
+  overflow: hidden;
 
   h1 {
     font-size: 3rem;
@@ -17,8 +19,20 @@
   height: 23rem;
   border: 1px solid black;
   border-radius: 50%;
-  padding: 4%;
-  overflow: hidden;
+  padding: 1rem;
+  position: relative;
+  z-index: 0;
+}
+
+.home__widget__alien {
+  position: absolute;
+  top: -6.08rem;
+  left: -4.2rem;
+  z-index: 1;
+
+  img {
+    transform: rotate(.5deg);
+  }
 }
 
 .home__container__inner {
@@ -29,13 +43,16 @@
   align-items: center;
   background-color: #87CEEB;
   border-radius: 50%;
+  border: 1px solid black;
   position: relative;
+  z-index: 2;
 
   img {
     position: absolute;
     top: 4rem;
     width: 31%;
     transform: rotate(-10deg);
+    filter: contrast(1.1);
   }
 }
 
@@ -56,26 +73,26 @@
   }
 }
 
-
 #heart {
   position: absolute;
   bottom: -1.5rem;
-  width: 155px;
+  width: 9.688rem;
   transform: rotate(180deg);
 }
+
 #heart:before,
 #heart:after {
   position: absolute;
   content: "";
-  left: 54px;
-  width: 50px;
-  height: 200px;
+  left: 3.375rem;
+  width: 3.125rem;
+  height: 12.5rem;
   background: white;
-  border-radius: 0 0 50px 50px;
+  border-radius: 0 0 3.125rem 3.125rem;
   transform: rotate(-10deg);
 }
+
 #heart:after {
   left: 0;
-  height: 213px;
+  height: 13.313rem;
 }
-
