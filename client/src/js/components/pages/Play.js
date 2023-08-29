@@ -14,27 +14,35 @@ class Play {
   }
 
   initGame() {
+    //  ELEMENTS
+    const canvas = document.querySelector(select.play.canvas);
+    const scoreDisplay = document.querySelector(select.play.score);
+    const endScoreDisplay = document.querySelector(select.play.endScore);
+    const endGameModal = document.querySelector(select.play.endModal);
+    const restartBtn = document.querySelector(select.play.restartBtn);
+    const up = document.querySelector(select.play.mobile.up);
+    const down = document.querySelector(select.play.mobile.down);
+    const left = document.querySelector(select.play.mobile.left);
+    const right = document.querySelector(select.play.mobile.right);
+    const shoot = document.querySelector(select.play.mobile.shoot);
+
+    //  CANVAS
+    const c = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
     //  GAME
     let game = {
       over: false,
       active: true
     };
-    const restartBtn = document.querySelector(select.play.restartBtn);
-    restartBtn.addEventListener('click', () => {  //  restart game
-      this.render();
-    });
-
-    //  SCORE
-    const scoreDisplay = document.querySelector(select.play.score);
-    const endScoreDisplay = document.querySelector(select.play.endScore);
-    const endGameModal = document.querySelector(select.play.endModal);
+    let frames = 0;
+    let randomFrame = Math.floor(Math.random() * 300 + 500);
     let score = 0;
-
-    //  CANVAS
-    const canvas = document.querySelector(select.play.canvas);
-    const c = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const enemyGrids = [];
+    const enemyProjectiles = [];
+    const projectiles = [];
+    const explosions = [];
 
     //  BACKGROUND
     const background = [];
@@ -68,7 +76,6 @@ class Play {
     let velocityXRight;
     let velocityYUp;
     let velocityYDown;
-
     if(window.innerWidth <= 540) {
       bottomMargin = 190;
       velocityXLeft = -5;
@@ -84,33 +91,10 @@ class Play {
     }
     const player = new Player(bottomMargin);
 
-    //  ARRAY WITH GRIDS OF ENEMIES
-    const enemyGrids = [];
-
-    //  PROJECTILES
-    const projectiles = [];
-    const enemyProjectiles = [];
-
-    //  EXPLOSIONS
-    const explosions = [];
-    const generateExplosions = ( {obj}, qty, color, radius ) => {
-      for(let e = 0; e < qty; e++) {
-        explosions.push(new Explosion({
-          position: {
-            x: obj.position.x + (obj.width / 2),
-            y: obj.position.y + (obj.height / 2)
-          },
-          velocity : {
-            x: (Math.random() - .5) * 2.5,
-            y: (Math.random() - .5) * 2.5
-          },
-          style: color,
-          radius: Math.random() * radius
-        }));
-      }
-    };
-
     //  CONTROLS
+    restartBtn.addEventListener('click', () => {  //  restart game
+      this.render();
+    });
     const keys = {
       left: {
         pressed: false
@@ -125,7 +109,6 @@ class Play {
         pressed: false
       }
     };
-    //  DESKTOP
     window.addEventListener('keydown', ({ key }) => {
       switch(key) {
       case 'ArrowLeft':
@@ -140,7 +123,7 @@ class Play {
       case 'ArrowDown':
         keys.down.pressed = true;
         break;
-      case ' ':
+      case ' ':  //  projectiles
         if(game.over) return;  //  game over
         projectiles.push(
           new Projectile({
@@ -175,12 +158,6 @@ class Play {
         break;
       }
     });
-    //  MOBILE
-    const up = document.querySelector('#up');
-    const down = document.querySelector('#down');
-    const left = document.querySelector('#left');
-    const right = document.querySelector('#right');
-    const shoot = document.querySelector('#shoot');
     up.addEventListener('touchstart', () => {
       keys.up.pressed = true;
     });
@@ -193,7 +170,7 @@ class Play {
     right.addEventListener('touchstart', () => {
       keys.right.pressed = true;
     });
-    shoot.addEventListener('touchstart', () => {
+    shoot.addEventListener('touchstart', () => {  //  projectiles
       if(game.over) return;  //  game over
       projectiles.push(
         new Projectile({
@@ -226,20 +203,32 @@ class Play {
       return;
     });
 
-    //  FRAMES
-    let frames = 0;
-    let randomFrame = Math.floor(Math.random() * 1000 + 500);
+    //  EFFECTS
+    const generateExplosions = ( {obj}, qty, color, radius ) => {
+      for(let e = 0; e < qty; e++) {
+        explosions.push(new Explosion({
+          position: {
+            x: obj.position.x + (obj.width / 2),
+            y: obj.position.y + (obj.height / 2)
+          },
+          velocity : {
+            x: (Math.random() - .5) * 2.5,
+            y: (Math.random() - .5) * 2.5
+          },
+          style: color,
+          radius: Math.random() * radius
+        }));
+      }
+    };
 
-    //  !!! ANIMATE !!! ANIMATE !!! ANIMATE !!! ANIMATE !!! ANIMATE !!! ANIMATE !!! ANIMATE !!! ANIMATE !!!
-    function animate() {
+    //  ANIMATE
+    const animate = () => {
       if(!game.active) return;
       window.requestAnimationFrame(animate);
 
-      //  canvas
+      //  canvas & background
       c.fillStyle = 'black';
       c.fillRect(0, 0, canvas.width, canvas.height);
-
-      //  background
       background.forEach((star) => {
         if(star.position.y - star.radius >= canvas.height) {
           star.position.x = Math.random() * canvas.width;
@@ -250,6 +239,23 @@ class Play {
 
       //  player
       player.update();
+      if(keys.left.pressed && player.position.x >= 0) {
+        player.velocity.x = velocityXLeft;
+        player.rotation = -.10;
+      } else if(keys.right.pressed && player.position.x <= (canvas.width - player.width)) {
+        player.velocity.x = velocityXRight;
+        player.rotation = .12;
+      } else {
+        player.velocity.x = 0;
+        player.rotation = 0;
+      }
+      if(keys.up.pressed && player.position.y >= 0) {
+        player.velocity.y = velocityYUp;
+      } else if(keys.down.pressed && player.position.y <= (canvas.height - player.height - bottomMargin)) {
+        player.velocity.y = velocityYDown;
+      } else {
+        player.velocity.y = 0;
+      }
 
       //  player projectiles
       projectiles.forEach((projectile, index) => {
@@ -259,6 +265,57 @@ class Play {
           projectile.update();
         }
       });
+
+      //  enemies
+      enemyGrids.forEach((grid, index) => {
+        grid.update();
+        if(frames % 100 === 0 && grid.enemies.length > 0) {
+          grid.enemies[Math.floor(Math.random() * grid.enemies.length)].shoot(enemyProjectiles);
+        }
+        grid.enemies.forEach((enemy, e) => {
+          enemy.update( {velocity: grid.velocity} );
+          //  enemies collision detection
+          projectiles.forEach((projectile, p) => {
+            if(projectile.position.y - projectile.radius <= enemy.position.y + enemy.height
+            && projectile.position.y + projectile.radius >= enemy.position.y
+            && projectile.position.x - projectile.radius <= enemy.position.x + enemy.width
+            && projectile.position.x + projectile.radius >= enemy.position.x) {
+              setTimeout(() => {
+                const enemyExist = grid.enemies.find(
+                  wantedEnemy => wantedEnemy === enemy
+                );
+                const projectileExist = projectiles.find(
+                  wantedProjectile => wantedProjectile === projectile
+                );
+                // remove enemies, projectiles & increment score
+                if(enemyExist && projectileExist) {
+                  score += 10;
+                  scoreDisplay.innerHTML = score;
+                  generateExplosions({ obj: enemy }, 30, '#8B8F92', 2);  //  & generate explosion
+                  grid.enemies.splice(e, 1);
+                  projectiles.splice(p, 1);
+                  // recalculate enemies grid width
+                  if(grid.enemies.length > 0) {
+                    const firstEnemy = grid.enemies[0];
+                    const lastEnemy = grid.enemies[grid.enemies.length - 1];
+                    grid.width = lastEnemy.position.x - firstEnemy.position.x + lastEnemy.width;
+                    grid.position.x = firstEnemy.position.x;
+                  } else {
+                    enemyGrids.splice(index, 1);
+                  }
+                }
+              }, 0);
+            }
+          });
+        });
+      });
+
+      //  new grids of enemies
+      if(frames % randomFrame === 0) {
+        enemyGrids.push(new EnemyGrid());
+        randomFrame = Math.floor(Math.random() * 300 + 500);
+        frames = 0;
+      }
 
       //  enemy projectiles
       enemyProjectiles.forEach((enemyProjectile, index) => {
@@ -295,79 +352,8 @@ class Play {
         }
       });
 
-      //  spawn grids of enemy
-      enemyGrids.forEach((grid, index) => {
-        grid.update();
-        //  spawn enemy projectiles
-        if(frames % 150 === 0 && grid.enemies.length > 0) {
-          grid.enemies[Math.floor(Math.random() * grid.enemies.length)].shoot(enemyProjectiles);
-        }
-        grid.enemies.forEach((enemy, e) => {
-          enemy.update( {velocity: grid.velocity} );
-          //  enemies collision detection
-          projectiles.forEach((projectile, p) => {
-            if(projectile.position.y - projectile.radius <= enemy.position.y + enemy.height
-            && projectile.position.y + projectile.radius >= enemy.position.y
-            && projectile.position.x - projectile.radius <= enemy.position.x + enemy.width
-            && projectile.position.x + projectile.radius >= enemy.position.x) {
-              setTimeout(() => {
-                const enemyExist = grid.enemies.find(
-                  wantedEnemy => wantedEnemy === enemy
-                );
-                const projectileExist = projectiles.find(
-                  wantedProjectile => wantedProjectile === projectile
-                );
-                // remove enemies & projectiles & increment score
-                if(enemyExist && projectileExist) {
-                  score += 10;
-                  scoreDisplay.innerHTML = score;
-                  generateExplosions({ obj: enemy }, 30, '#8B8F92', 2);  //  & generate explosion
-                  grid.enemies.splice(e, 1);
-                  projectiles.splice(p, 1);
-                  // recalculate grid width
-                  if(grid.enemies.length > 0) {
-                    const firstEnemy = grid.enemies[0];
-                    const lastEnemy = grid.enemies[grid.enemies.length - 1];
-                    grid.width = lastEnemy.position.x - firstEnemy.position.x + lastEnemy.width;
-                    grid.position.x = firstEnemy.position.x;
-                  } else {
-                    enemyGrids.splice(index, 1);
-                  }
-                }
-              }, 0);
-            }
-          });
-        });
-      });
-
-      //  player movement
-      if(keys.left.pressed && player.position.x >= 0) {
-        player.velocity.x = velocityXLeft;
-        player.rotation = -.10;
-      } else if(keys.right.pressed && player.position.x <= (canvas.width - player.width)) {
-        player.velocity.x = velocityXRight;
-        player.rotation = .12;
-      } else {
-        player.velocity.x = 0;
-        player.rotation = 0;
-      }
-      if(keys.up.pressed && player.position.y >= 0) {
-        player.velocity.y = velocityYUp;
-      } else if(keys.down.pressed && player.position.y <= (canvas.height - player.height - bottomMargin)) {
-        player.velocity.y = velocityYDown;
-      } else {
-        player.velocity.y = 0;
-      }
-
-      //  generate grids of enemies
-      if(frames % randomFrame === 0) {
-        enemyGrids.push(new EnemyGrid());
-        randomFrame = Math.floor(Math.random() * 500 + 500);
-        frames = 0;
-      }
-
       frames++;
-    }
+    };
 
     animate();
   }

@@ -47,14 +47,11 @@ class Player {
         thisPlayer.position.x + thisPlayer.width / 2,
         thisPlayer.position.y + thisPlayer.height / 2
       );
-
       c.rotate(thisPlayer.rotation);
-
       c.translate(
         -thisPlayer.position.x - thisPlayer.width / 2,
         -thisPlayer.position.y - thisPlayer.height / 2
       );
-
       c.drawImage(
         thisPlayer.image,
         thisPlayer.position.x,
@@ -62,7 +59,6 @@ class Player {
         thisPlayer.width,
         thisPlayer.height
       );
-
       c.restore();
     };
 

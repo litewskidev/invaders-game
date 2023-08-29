@@ -32,7 +32,14 @@ export const select = {
     endScore: '#end-score',
     endModal: '#end-modal',
     restartBtn: '#restart-btn',
-    pageLinks: '.play-btn'
+    pageLinks: '.play-btn',
+    mobile: {
+      up: '#up',
+      down: '#down',
+      left: '#left',
+      right: '#right',
+      shoot: '#shoot'
+    }
   },
 
   leaderboards: {

@@ -17,6 +17,7 @@
 }
 
 .play__endgame__modal {
+  transform: translateX(-100%);
   opacity: 0;
   position: fixed;
   top: 0;
@@ -28,9 +29,10 @@
   align-items: center;
   background-color: rgba(0, 0, 0, .5);
   z-index: 990;
-  transition: opacity 1s ease-out;
+  transition: all 1s ease-out;
 
   &.show {
+    transform: translateX(0);
     opacity: 1;
   }
 }
