@@ -67,7 +67,8 @@ class Enemy {
           y: 5
         },
         style: 'red',
-        radius: 3
+        radius: 3,
+        site: 'enemy'
       }));
     };
   }

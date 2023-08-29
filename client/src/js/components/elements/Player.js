@@ -10,7 +10,7 @@ class Player {
 
     //  IMAGE
     const image = new Image();
-    image.src = '../../images/player/spaceshipImg.webp';
+    image.src = '../../images/player/airplane_2_14.png';
 
     //  OPACITY
     thisPlayer.opacity = 1;

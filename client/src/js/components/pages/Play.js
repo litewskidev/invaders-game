@@ -46,16 +46,21 @@ class Play {
 
     //  BACKGROUND
     const background = [];
-    let starQty;
-    let starVel;
+    const backgroundColor = '#87CEEB';
+    const randomClouds = () => {
+      let randomCloud = Math.floor(Math.random() * 5) + 1;
+      return randomCloud;
+    };
+    let cloudsQty;
+    let cloudsVel;
     if(window.innerWidth <= 540) {
-      starQty = 30;
-      starVel = .15;
+      cloudsQty = 15;
+      cloudsVel = .15;
     } else {
-      starQty = 60;
-      starVel = .3;
+      cloudsQty = 30;
+      cloudsVel = .3;
     }
-    for(let b = 0; b < starQty; b++) {
+    for(let b = 0; b < cloudsQty; b++) {
       background.push(new Background({
         position: {
           x: Math.random() * canvas.width,
@@ -63,11 +68,11 @@ class Play {
         },
         velocity: {
           x: 0,
-          y: starVel
+          y: cloudsVel
         },
         style: '#D6EEFF',
         radius: Math.random() * 2
-      }));
+      }, randomClouds()));
     }
 
     //  PLAYER
@@ -128,15 +133,16 @@ class Play {
         projectiles.push(
           new Projectile({
             position: {
-              x: player.position.x + (player.width / 2),
-              y: player.position.y
+              x: player.position.x + (player.width / 2.4),
+              y: player.position.y - 15
             },
             velocity: {
               x: 0,
               y: -12
             },
-            style: 'white',
-            radius: 2
+            style: '',
+            radius: 2,
+            site: 'player'
           })
         );
         break;
@@ -175,15 +181,16 @@ class Play {
       projectiles.push(
         new Projectile({
           position: {
-            x: player.position.x + (player.width / 2),
-            y: player.position.y
+            x: player.position.x + (player.width / 2.4),
+            y: player.position.y - 15
           },
           velocity: {
             x: 0,
             y: -12
           },
-          style: 'white',
-          radius: 2
+          style: '',
+          radius: 2,
+          site: 'player'
         })
       );
     });
@@ -227,7 +234,7 @@ class Play {
       window.requestAnimationFrame(animate);
 
       //  canvas & background
-      c.fillStyle = 'black';
+      c.fillStyle = backgroundColor;
       c.fillRect(0, 0, canvas.width, canvas.height);
       background.forEach((star) => {
         if(star.position.y - star.radius >= canvas.height) {
@@ -259,7 +266,7 @@ class Play {
 
       //  player projectiles
       projectiles.forEach((projectile, index) => {
-        if(projectile.position.y + projectile.radius <= 0) {
+        if(projectile.position.y + projectile.height <= 0) {
           projectiles.splice(index, 1);
         } else {
           projectile.update();
@@ -276,10 +283,10 @@ class Play {
           enemy.update( {velocity: grid.velocity} );
           //  enemies collision detection
           projectiles.forEach((projectile, p) => {
-            if(projectile.position.y - projectile.radius <= enemy.position.y + enemy.height
-            && projectile.position.y + projectile.radius >= enemy.position.y
-            && projectile.position.x - projectile.radius <= enemy.position.x + enemy.width
-            && projectile.position.x + projectile.radius >= enemy.position.x) {
+            if(projectile.position.y + 15 <= enemy.position.y + enemy.height
+            && projectile.position.y + (projectile.height - 15) >= enemy.position.y
+            && projectile.position.x + 15 <= enemy.position.x + enemy.width
+            && projectile.position.x + (projectile.width - 15) >= enemy.position.x) {
               setTimeout(() => {
                 const enemyExist = grid.enemies.find(
                   wantedEnemy => wantedEnemy === enemy
@@ -325,7 +332,7 @@ class Play {
           enemyProjectile.update();
         }
         //  player collision detection & GAME OVER
-        if(enemyProjectile.position.y - enemyProjectile.radius <= player.position.y + player.height
+        if(enemyProjectile.position.y - enemyProjectile.radius <= player.position.y + (player.height - 15)
         && enemyProjectile.position.y + enemyProjectile.radius >= player.position.y
         && enemyProjectile.position.x - enemyProjectile.radius <= player.position.x + player.width
         && enemyProjectile.position.x + enemyProjectile.radius >= player.position.x) {
