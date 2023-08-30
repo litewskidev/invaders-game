@@ -4,19 +4,22 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1.1rem;
   position: relative;
   overflow: hidden;
 
   h1 {
-    font-size: 3rem;
+    font-weight: 500;
+    font-size: 2.5rem;
+    line-height: 1;
     border-bottom: 1px solid black;
+    margin-top: 2.5rem;
   }
 }
 
 .home__container {
-  width: 23rem;
-  height: 23rem;
+  width: 18rem;
+  height: 18rem;
   border: 1px solid black;
   border-radius: 50%;
   padding: 1rem;
@@ -26,12 +29,14 @@
 
 .home__widget__alien {
   position: absolute;
-  top: -6.08rem;
-  left: -4.2rem;
+  top: -4.6rem;
+  left: -3.55rem;
   z-index: 1;
 
   img {
-    transform: rotate(.5deg);
+    transform: rotate(.3deg);
+    width: 25rem;
+    filter: contrast(.95);
   }
 }
 
@@ -41,7 +46,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #87CEEB;
+  background-color: rgba(135, 206, 235, .97);
   border-radius: 50%;
   border: 1px solid black;
   position: relative;
@@ -50,7 +55,7 @@
   img {
     position: absolute;
     top: 4rem;
-    width: 31%;
+    width: 32%;
     transform: rotate(-10deg);
     filter: contrast(1.1);
   }
@@ -58,25 +63,32 @@
 
 .home__nav {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: .7rem;
+  text-align: center;
+  gap: .5rem;
+  width: 20rem;
 
   a {
     background-color: white;
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: black;
     border: 1px black solid;
     border-radius: 0 5rem 5rem 5rem;
-    padding: .5rem 1rem;
+    padding-top: .75rem;
+    padding-bottom: .35rem;
     cursor: pointer;
+    width: 100%;
+  }
+
+  a:last-of-type {
+    border-radius: 5rem 0rem 5rem 5rem;
   }
 }
 
 #heart {
   position: absolute;
   bottom: -1.5rem;
-  width: 9.688rem;
+  width: 8rem;
   transform: rotate(180deg);
 }
 
@@ -84,15 +96,15 @@
 #heart:after {
   position: absolute;
   content: "";
-  left: 3.375rem;
-  width: 3.125rem;
-  height: 12.5rem;
+  left: 2.6rem;
+  width: 2.5rem;
+  height: 8.5rem;
   background: white;
   border-radius: 0 0 3.125rem 3.125rem;
-  transform: rotate(-10deg);
+  transform: rotate(-12deg);
 }
 
 #heart:after {
   left: 0;
-  height: 13.313rem;
+  height: 9.3rem;
 }

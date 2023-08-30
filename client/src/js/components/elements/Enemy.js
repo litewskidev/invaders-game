@@ -11,7 +11,7 @@ class Enemy {
 
     //  IMAGE
     const image = new Image();
-    image.src = `../../images/enemies/${enemyProp}.webp`;
+    image.src = `../../images/enemies/${enemyProp}.png`;
 
     //  SIZE & POSITION
     image.onload = () => {

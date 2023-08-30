@@ -46,13 +46,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
   padding: 2% 0;
 
   p {
     font-size: 4rem;
     font-weight: 900;
     color: rgb(184, 64, 64);
+    margin-bottom: -.5rem;
   }
 }
 
@@ -62,9 +62,11 @@
   border: 1px solid black;
   border-radius: 5rem 0rem 5rem 5rem;
   padding: .5rem 1rem;
+  padding-bottom: 0;
   margin-top: 1rem;
   background-color: inherit;
   cursor: pointer;
+  font-family: $font-text;
 }
 
 .play__endgame__modal__score {
@@ -188,7 +190,6 @@
   .play__endgame__modal__inner {
     width: 80%;
     padding: 5% 0;
-    gap: .2rem;
 
     p {
       font-size: 2rem;

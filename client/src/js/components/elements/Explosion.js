@@ -37,7 +37,7 @@ class Explosion {
       thisExplosion.draw();
       thisExplosion.position.x += thisExplosion.velocity.x;
       thisExplosion.position.y += thisExplosion.velocity.y;
-      thisExplosion.opacity -= .008;
+      thisExplosion.opacity -= .01;
     };
   }
 }
