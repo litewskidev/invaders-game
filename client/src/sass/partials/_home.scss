@@ -52,11 +52,20 @@
   position: relative;
   z-index: 2;
 
-  img {
+  img:first-of-type {
     position: absolute;
     top: 4rem;
     width: 32%;
     transform: rotate(-10deg);
+    filter: contrast(1.1);
+  }
+
+  img:last-of-type {
+    position: absolute;
+    top: 4.1rem;
+    left: 6.57rem;
+    width: 12%;
+    transform: rotate(-12deg);
     filter: contrast(1.1);
   }
 }
