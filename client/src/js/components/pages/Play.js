@@ -232,25 +232,29 @@ class Play {
       //  canvas & background
       c.fillStyle = backgroundColor;
       c.fillRect(0, 0, canvas.width, canvas.height);
-      background.forEach((star) => {
-        if(star.position.y - star.radius >= canvas.height) {
-          star.position.x = Math.random() * canvas.width;
-          star.position.y = -star.radius;
+      background.forEach((cloud) => {
+        if(cloud.position.y - cloud.radius >= canvas.height) {
+          cloud.position.x = Math.random() * canvas.width;
+          cloud.position.y = -cloud.radius;
         }
-        star.update();
+        cloud.update();
       });
 
       //  player
       player.update();
       if(keys.left.pressed && player.position.x >= 0) {
         player.velocity.x = velocityXLeft;
-        player.rotation = -.10;
+        if (player.frameX >= 1) {
+          player.frameX--;
+        }
       } else if(keys.right.pressed && player.position.x <= (canvas.width - player.width)) {
         player.velocity.x = velocityXRight;
-        player.rotation = .12;
+        if (player.frameX <= 24) {
+          player.frameX++;
+        }
       } else {
         player.velocity.x = 0;
-        player.rotation = 0;
+        player.frameX = 13;
       }
       if(keys.up.pressed && player.position.y >= 0) {
         player.velocity.y = velocityYUp;

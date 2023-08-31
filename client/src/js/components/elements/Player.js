@@ -4,13 +4,15 @@ class Player {
   constructor( bottomMarginProp ) {
     const thisPlayer = this;
 
+    thisPlayer.bottomMargin = bottomMarginProp;
+
     //  CANVAS
     const canvas = document.querySelector(select.play.canvas);
     const c = canvas.getContext('2d');
 
     //  IMAGE
     const image = new Image();
-    image.src = '../../images/player/airplane_2_14.png';
+    image.src = '../../images/player/airplane_strip.png';
     const imagePropeller = new Image();
     imagePropeller.src = '../../images/player/propeller/propeller_blue_strip.png';
 
@@ -23,15 +25,19 @@ class Player {
       if(window.innerWidth <= 540) {
         scale = .3;
       } else {
-        scale = .50;
+        scale = .5;
       }
       thisPlayer.image = image;
-      thisPlayer.width = image.width * scale;
-      thisPlayer.height = image.height * scale;
+      thisPlayer.spriteWidth = 247.5;
+      thisPlayer.spriteHeight = 208;
+      thisPlayer.width = thisPlayer.spriteWidth * scale;
+      thisPlayer.height = thisPlayer.spriteHeight * scale;
       thisPlayer.position = {
         x: canvas.width / 2 - thisPlayer.width / 2,
-        y: canvas.height - thisPlayer.height - bottomMarginProp
+        y: canvas.height - thisPlayer.height - thisPlayer.bottomMargin
       };
+      thisPlayer.frameX = 13;
+      thisPlayer.frameY = 0;
     };
 
     imagePropeller.onload = () => {
@@ -40,11 +46,11 @@ class Player {
       let spaceY;
       if(window.innerWidth <= 540) {
         scale = .4;
-        spaceX = 2.5;
-        spaceY = 6.5;
+        spaceX = 3.1;
+        spaceY = 6.2;
       } else {
         scale = .7;
-        spaceX = 4.5;
+        spaceX = 5.3;
         spaceY = 10;
       }
       thisPlayer.imagePropeller = imagePropeller;
@@ -54,9 +60,10 @@ class Player {
       thisPlayer.imagePropeller.height = thisPlayer.imagePropeller.spriteHeight * scale;
       thisPlayer.imagePropeller.position = {
         x: canvas.width / 2 - thisPlayer.imagePropeller.width / 2 + spaceX,
-        y: canvas.height - thisPlayer.imagePropeller.height - thisPlayer.height - bottomMarginProp + spaceY
+        y: canvas.height - thisPlayer.imagePropeller.height - thisPlayer.height - thisPlayer.bottomMargin + spaceY
       };
       thisPlayer.propellerFrameX = 0;
+      thisPlayer.propellerFrameY = 0;
     };
 
     //  ROTATION & VELOCITY
@@ -70,17 +77,12 @@ class Player {
     thisPlayer.draw = () => {
       c.save();
       c.globalAlpha = thisPlayer.opacity;
-      c.translate(
-        thisPlayer.position.x + thisPlayer.width / 2,
-        thisPlayer.position.y + thisPlayer.height / 2
-      );
-      c.rotate(thisPlayer.rotation);
-      c.translate(
-        -thisPlayer.position.x - thisPlayer.width / 2,
-        -thisPlayer.position.y - thisPlayer.height / 2
-      );
       c.drawImage(
         thisPlayer.image,
+        thisPlayer.frameX * thisPlayer.spriteWidth,
+        thisPlayer.frameY,
+        thisPlayer.spriteWidth,
+        thisPlayer.spriteHeight,
         thisPlayer.position.x,
         thisPlayer.position.y,
         thisPlayer.width,
@@ -89,7 +91,7 @@ class Player {
       c.drawImage(
         thisPlayer.imagePropeller,
         thisPlayer.propellerFrameX * thisPlayer.imagePropeller.spriteWidth,
-        0,
+        thisPlayer.propellerFrameY,
         thisPlayer.imagePropeller.spriteWidth,
         thisPlayer.imagePropeller.spriteHeight,
         thisPlayer.imagePropeller.position.x,
