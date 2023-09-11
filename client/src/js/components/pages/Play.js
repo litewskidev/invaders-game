@@ -260,7 +260,9 @@ class Play {
       } else {
         player.velocity.x = 0;
         player.frameX = 13;
-        player.imagePropeller.position.x = player.position.x + player.width / 2 - player.imagePropeller.width / 2 + player.spaceX;
+        if(player.imagePropeller) {
+          player.imagePropeller.position.x = player.position.x + player.width / 2 - player.imagePropeller.width / 2 + player.spaceX;
+        }
       }
       if(keys.up.pressed && player.position.y >= 0) {
         player.velocity.y = velocityYUp;
