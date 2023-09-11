@@ -9,7 +9,7 @@ class Boss {
     let scale;
     if(window.innerWidth <= 540) {
       scale = .40;
-      bossVel = 1;
+      bossVel = 1.5;
     } else {
       scale = .80;
       bossVel = 4;
@@ -82,7 +82,7 @@ class Boss {
         },
         velocity: {
           x: 0,
-          y: (Math.random() * 6) + 3
+          y: (Math.random() * 6) + 2
         },
         site: 'enemy'
       }));
@@ -93,7 +93,7 @@ class Boss {
         },
         velocity: {
           x: 0,
-          y: (Math.random() * -6) - 3
+          y: (Math.random() * -6) - 2
         },
         site: 'enemy',
         rotation: 3.12
@@ -104,7 +104,7 @@ class Boss {
           y: thisBoss.position.y + (thisBoss.height / 2)
         },
         velocity: {
-          x: (Math.random() * 6) + 3,
+          x: (Math.random() * 6) + 2,
           y: 0
         },
         site: 'enemy',
@@ -116,7 +116,7 @@ class Boss {
           y: thisBoss.position.y + (thisBoss.height / 2)
         },
         velocity: {
-          x: (Math.random() * -6) - 3,
+          x: (Math.random() * -6) - 2,
           y: 0
         },
         site: 'enemy',

@@ -66,8 +66,7 @@ class Player {
       thisPlayer.propellerFrameY = 0;
     };
 
-    //  ROTATION & VELOCITY
-    thisPlayer.rotation = 0;
+    //  VELOCITY
     thisPlayer.velocity = {
       x: 0,
       y: 0

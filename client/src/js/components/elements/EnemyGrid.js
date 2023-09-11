@@ -26,7 +26,7 @@ class EnemyGrid {
       enemyRows = Math.floor(Math.random() * 2) + 2;
       enemySpaceX = 105;
       enemySpaceY = 100;
-      enemyVelocity = 4;
+      enemyVelocity = 5;
     }
 
     const randomEnemies = () => {

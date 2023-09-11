@@ -29,10 +29,13 @@ export const select = {
   play: {
     canvas: 'canvas',
     score: '#score-qty',
+    scoreContainer: '#play-score',
     endScore: '#end-score',
     endModal: '#end-modal',
     restartBtn: '#restart-btn',
     pageLinks: '.play-btn',
+    healthBar: '#health',
+    healthContainer: '#boss-bar',
     mobile: {
       up: '#up',
       down: '#down',

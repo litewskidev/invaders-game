@@ -18,8 +18,7 @@ class Play {
     //  ELEMENTS
     const canvas = document.querySelector(select.play.canvas);
     const scoreDisplay = document.querySelector(select.play.score);
-    const scoreContainer = document.querySelector('#play-score');
-    const endScoreDisplay = document.querySelector(select.play.endScore);
+    const scoreContainer = document.querySelector(select.play.scoreContainer);
     const endGameModal = document.querySelector(select.play.endModal);
     const restartBtn = document.querySelector(select.play.restartBtn);
     const up = document.querySelector(select.play.mobile.up);
@@ -27,8 +26,8 @@ class Play {
     const left = document.querySelector(select.play.mobile.left);
     const right = document.querySelector(select.play.mobile.right);
     const shoot = document.querySelector(select.play.mobile.shoot);
-    const healthBar = document.querySelector('#health');
-    const healthContainer = document.querySelector('#boss-bar');
+    const healthBar = document.querySelector(select.play.healthBar);
+    const healthContainer = document.querySelector(select.play.healthContainer);
 
     //  CANVAS
     const c = canvas.getContext('2d');
@@ -48,7 +47,7 @@ class Play {
     const projectiles = [];
     const explosions = [];
     const boss = new Boss();
-    let bossHealth = 200;
+    let bossHealth = 1000;
 
     //  BACKGROUND
     const background = [];
@@ -138,7 +137,7 @@ class Play {
         keys.down.pressed = true;
         break;
       case ' ':  //  projectiles
-        if(game.over) return;  //  game over
+        if(game.over || projectiles.length > 1) return;  //  game over
         projectiles.push(
           new Projectile({
             position: {
@@ -288,7 +287,7 @@ class Play {
       });
 
       //  enemies
-      if(score < 200) {
+      if(score < 3000) {
         enemyGrids.forEach((grid, index) => {
           //  decrement score if enemy pass through the player
           if(grid.position.y > canvas.height) {
@@ -299,7 +298,7 @@ class Play {
             });
           } else {
             grid.update();
-            if(frames % 130 === 0 && grid.enemies.length > 0) {
+            if(frames % 100 === 0 && grid.enemies.length > 0) {
               grid.enemies[Math.floor(Math.random() * grid.enemies.length)].shoot(enemyProjectiles);
             }
             grid.enemies.forEach((enemy, e) => {
@@ -361,13 +360,15 @@ class Play {
         });
         if(bossHealth === 0) {
           boss.opacity = 0;
-          generateExplosions({ obj: boss }, 50, 'black', 2);
+          generateExplosions({ obj: boss }, 40, 'black', 1.8);
           game.over = true;
           setTimeout(() => {
             game.active = false;
           }, 2000);
         }
       }
+
+
 
       //  new grids of enemies
       if(frames % randomFrame === 0) {
@@ -393,12 +394,11 @@ class Play {
         && enemyProjectile.position.x <= player.position.x + player.width
         && enemyProjectile.position.x + enemyProjectile.width >= player.position.x) {
           enemyProjectiles.splice(index, 1);
-          generateExplosions({ obj: player }, 50, 'white', 2);
+          generateExplosions({ obj: player }, 40, 'green', 1.8);
           player.opacity = 0;
           game.over = true;
           setTimeout(() => {
             game.active = false;
-            endScoreDisplay.innerHTML = score;
             endGameModal.classList.add('show');
           }, 800);
         }
