@@ -18,6 +18,7 @@ class Play {
     //  ELEMENTS
     const canvas = document.querySelector(select.play.canvas);
     const scoreDisplay = document.querySelector(select.play.score);
+    const scoreContainer = document.querySelector('#play-score');
     const endScoreDisplay = document.querySelector(select.play.endScore);
     const endGameModal = document.querySelector(select.play.endModal);
     const restartBtn = document.querySelector(select.play.restartBtn);
@@ -26,6 +27,8 @@ class Play {
     const left = document.querySelector(select.play.mobile.left);
     const right = document.querySelector(select.play.mobile.right);
     const shoot = document.querySelector(select.play.mobile.shoot);
+    const healthBar = document.querySelector('#health');
+    const healthContainer = document.querySelector('#boss-bar');
 
     //  CANVAS
     const c = canvas.getContext('2d');
@@ -45,6 +48,7 @@ class Play {
     const projectiles = [];
     const explosions = [];
     const boss = new Boss();
+    let bossHealth = 200;
 
     //  BACKGROUND
     const background = [];
@@ -138,8 +142,8 @@ class Play {
         projectiles.push(
           new Projectile({
             position: {
-              x: player.position.x + (player.width / 2.4),
-              y: player.position.y - 15
+              x: player.position.x + (player.width / 2.32),
+              y: player.position.y - 25
             },
             velocity: {
               x: 0,
@@ -338,9 +342,30 @@ class Play {
         });
       } else {
         //  boss
+        scoreContainer.classList.add('noDisplay');
+        healthContainer.classList.add('display');
         boss.update();
-        if(frames % 130 === 0) {
+        if(frames % 80 === 0 && game.over === false) {
           boss.shoot(enemyProjectiles);
+        }
+        projectiles.forEach((projectile, p) => {
+          if(projectile.position.y + 15 <= boss.position.y + boss.height / 2
+          && projectile.position.y + (projectile.height - 15) >= boss.position.y
+          && projectile.position.x <= boss.position.x + boss.width
+          && projectile.position.x + projectile.width >= boss.position.x) {
+            bossHealth -= 5;
+            healthBar.value -= 5;
+            projectiles.splice(p, 1);
+            generateExplosions({ obj: boss }, 15, 'white', 1);
+          }
+        });
+        if(bossHealth === 0) {
+          boss.opacity = 0;
+          generateExplosions({ obj: boss }, 50, 'black', 2);
+          game.over = true;
+          setTimeout(() => {
+            game.active = false;
+          }, 2000);
         }
       }
 
@@ -362,14 +387,13 @@ class Play {
           enemyProjectile.update();
         }
 
-        console.log(enemyProjectiles);
         //  player collision detection & GAME OVER
         if(enemyProjectile.position.y - 15 <= player.position.y + (player.height - 15)
         && enemyProjectile.position.y + 15 >= player.position.y
         && enemyProjectile.position.x <= player.position.x + player.width
         && enemyProjectile.position.x + enemyProjectile.width >= player.position.x) {
-          generateExplosions({ obj: player }, 50, 'white', 2);
           enemyProjectiles.splice(index, 1);
+          generateExplosions({ obj: player }, 50, 'white', 2);
           player.opacity = 0;
           game.over = true;
           setTimeout(() => {

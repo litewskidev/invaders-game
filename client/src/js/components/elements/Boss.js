@@ -12,7 +12,7 @@ class Boss {
       bossVel = 1;
     } else {
       scale = .80;
-      bossVel = 3.5;
+      bossVel = 4;
     }
 
     //  CANVAS
@@ -22,6 +22,9 @@ class Boss {
     //  IMAGE
     const image = new Image();
     image.src = `../../images/enemies/boss.png`;
+
+    //  OPACITY
+    thisBoss.opacity = 1;
 
     //  SIZE & POSITION
     image.onload = () => {
@@ -42,6 +45,8 @@ class Boss {
 
     //  DRAW
     thisBoss.draw = () => {
+      c.save();
+      c.globalAlpha = thisBoss.opacity;
       c.drawImage(
         thisBoss.image,
         thisBoss.position.x,
@@ -49,6 +54,7 @@ class Boss {
         thisBoss.width,
         thisBoss.height
       );
+      c.restore();
     };
 
     thisBoss.update = () => {
@@ -60,9 +66,9 @@ class Boss {
         thisBoss.draw();
         thisBoss.position.x += thisBoss.velocity.x;
         thisBoss.position.y += thisBoss.velocity.y;
-        if(thisBoss.position.x >= (canvas.width - thisBoss.width) || thisBoss.position.x <= 0) {
+        if(thisBoss.position.x >= canvas.width || thisBoss.position.x <= 0 - thisBoss.width) {
           thisBoss.velocity.x = -thisBoss.velocity.x;
-        } else if(thisBoss.position.y >= (canvas.height - thisBoss.height) || thisBoss.position.y <= 0) {
+        } else if(thisBoss.position.y >= canvas.height || thisBoss.position.y <= 0 - thisBoss.height) {
           thisBoss.velocity.y = -thisBoss.velocity.y;
         }
       }
@@ -76,7 +82,7 @@ class Boss {
         },
         velocity: {
           x: 0,
-          y: 5
+          y: (Math.random() * 6) + 3
         },
         site: 'enemy'
       }));
@@ -87,7 +93,7 @@ class Boss {
         },
         velocity: {
           x: 0,
-          y: -5
+          y: (Math.random() * -6) - 3
         },
         site: 'enemy',
         rotation: 3.12
@@ -98,7 +104,7 @@ class Boss {
           y: thisBoss.position.y + (thisBoss.height / 2)
         },
         velocity: {
-          x: 5,
+          x: (Math.random() * 6) + 3,
           y: 0
         },
         site: 'enemy',
@@ -110,7 +116,7 @@ class Boss {
           y: thisBoss.position.y + (thisBoss.height / 2)
         },
         velocity: {
-          x: -5,
+          x: (Math.random() * -6) - 3,
           y: 0
         },
         site: 'enemy',

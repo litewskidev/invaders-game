@@ -16,14 +16,14 @@ class EnemyGrid {
     let enemyVelocity;
 
     if(window.innerWidth <= 540) {
-      enemyColumns = Math.floor(Math.random() * 4 + 2);
-      enemyRows = Math.floor(Math.random() * 2 + 2);
+      enemyColumns = Math.floor(Math.random() * 4) + 2;
+      enemyRows = Math.floor(Math.random() * 2) + 2;
       enemySpaceX = 55;
       enemySpaceY = 50;
       enemyVelocity = 2;
     } else {
-      enemyColumns = Math.floor(Math.random() * 8 + 5);
-      enemyRows = Math.floor(Math.random() * 2 + 2);
+      enemyColumns = Math.floor(Math.random() * 8) + 5;
+      enemyRows = Math.floor(Math.random() * 2) + 2;
       enemySpaceX = 105;
       enemySpaceY = 100;
       enemyVelocity = 4;
