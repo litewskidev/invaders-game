@@ -18,7 +18,8 @@ class Play {
   initGame() {
     //  ELEMENTS
     const canvas = document.querySelector(select.play.canvas);
-    const startBanner = document.querySelector('#startgame-banner');
+    const startBanner = document.querySelector(select.play.startBanner);
+    const resilienceBar = document.querySelector(select.play.resilienceBar);
     const scoreDisplay = document.querySelector(select.play.score);
     const scoreContainer = document.querySelector(select.play.scoreContainer);
     const endGameModal = document.querySelector(select.play.endModal);
@@ -51,13 +52,14 @@ class Play {
     }, 5000);
 
     let frames = 0;
-    let randomFrame = Math.floor(Math.random() * 800) + 500;
+    let randomFrame = Math.floor(Math.random() * 250) + 500;
     let score = 0;
     const enemyGrids = [];
     const enemyProjectiles = [];
     const projectiles = [];
     const explosions = [];
     const points = [];
+    let townResilience = 20;
     const boss = new Boss();
     let bossHealth = 1000;
 
@@ -149,16 +151,29 @@ class Play {
         keys.down.pressed = true;
         break;
       case ' ':  //  projectiles
-        if(game.over || projectiles.length > 1) return;  //  game over
+        if(game.over || projectiles.length > 2) return;  //  game over
         projectiles.push(
           new Projectile({
             position: {
-              x: player.position.x + (player.width / 2.32),
-              y: player.position.y - 25
+              x: player.position.x + (player.width / 1.8),
+              y: player.position.y - 15
             },
             velocity: {
               x: 0,
-              y: -12
+              y: -13
+            },
+            site: 'player'
+          })
+        );
+        projectiles.push(
+          new Projectile({
+            position: {
+              x: player.position.x + (player.width / 3.1),
+              y: player.position.y - 15
+            },
+            velocity: {
+              x: 0,
+              y: -13
             },
             site: 'player'
           })
@@ -199,8 +214,21 @@ class Play {
       projectiles.push(
         new Projectile({
           position: {
-            x: player.position.x + (player.width / 2.4),
-            y: player.position.y - 15
+            x: player.position.x + (player.width / 1.8),
+            y: player.position.y - 5
+          },
+          velocity: {
+            x: 0,
+            y: -12
+          },
+          site: 'player'
+        })
+      );
+      projectiles.push(
+        new Projectile({
+          position: {
+            x: player.position.x + (player.width / 3.1),
+            y: player.position.y - 5
           },
           velocity: {
             x: 0,
@@ -300,18 +328,18 @@ class Play {
 
       //  enemies
       if(game.start === true) {
-        if(score < 3000) {
+        if(score < 50) {
           enemyGrids.forEach((grid, index) => {
             //  decrement score if enemy pass through the player
             if(grid.position.y > canvas.height) {
               enemyGrids.splice(index, 1);
               grid.enemies.forEach(() => {
-                score -= 10;
-                scoreDisplay.innerHTML = score;
+                townResilience -= 1;
+                resilienceBar.value -= 1;
               });
             } else {
               grid.update();
-              if(frames % 100 === 0 && grid.enemies.length > 0) {
+              if(frames % 150 === 0 && grid.enemies.length > 0) {
                 grid.enemies[Math.floor(Math.random() * grid.enemies.length)].shoot(enemyProjectiles);
               }
               grid.enemies.forEach((enemy, e) => {
@@ -390,13 +418,15 @@ class Play {
         //  points
         points.forEach((point, index) => {
           if(point.position.y > canvas.height) {
-            points.splice(index, 1);
+            setTimeout(() => {
+              points.splice(index, 1);
+            }, 0);
           } else if(point.position.y + (point.height - 15) >= player.position.y
-            && point.position.y + 15 <= player.position.y + player.height / 2
+            && point.position.y + 15 <= player.position.y + player.height
             && point.position.x <= player.position.x + player.width
             && point.position.x + point.width >= player.position.x) {
-            generateExplosions({ obj: point }, 3, '#B8FFAD', 10);
-            score += 10;
+            generateExplosions({ obj: point }, 1, '#B8FFAD', 10);
+            score += 1;
             scoreDisplay.innerHTML = score;
             points.splice(index, 1);
           } else {
@@ -427,7 +457,9 @@ class Play {
           && enemyProjectile.position.y + 15 >= player.position.y
           && enemyProjectile.position.x <= player.position.x + player.width
           && enemyProjectile.position.x + enemyProjectile.width >= player.position.x) {
-            enemyProjectiles.splice(index, 1);
+            setTimeout(() => {
+              enemyProjectiles.splice(index, 1);
+            }, 0);
             generateExplosions({ obj: player }, 40, 'green', 1.8);
             player.opacity = 0;
             game.over = true;
@@ -437,6 +469,15 @@ class Play {
             }, 800);
           }
         });
+
+        //  town resilience GAME OVER
+        if(townResilience < 1) {
+          game.over = true;
+          setTimeout(() => {
+            game.active = false;
+            endGameModal.classList.add('show');
+          }, 800);
+        }
 
         //  explosions
         explosions.forEach((explosion, index) => {

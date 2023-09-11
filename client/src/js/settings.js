@@ -28,6 +28,8 @@ export const select = {
 
   play: {
     canvas: 'canvas',
+    startBanner: '#startgame-banner',
+    resilienceBar: '#town',
     score: '#score-qty',
     scoreContainer: '#play-score',
     endScore: '#end-score',

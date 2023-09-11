@@ -73,16 +73,22 @@
   <script id="template__play__widget" type="text/x-handlebars-template">
     <section class="play__widget">
       <div id="startgame-banner" class="play__startgame__banner">
-        <p>COLLECT 3000 POINTS</p>
+        <p>COLLECT 500 ALIEN CAPSULES TO LURE <span>THE MOTHERSHIP</span></p>
       </div>
       <!-- SCORE -->
       <div id="play-score" class="play__score__container">
-        <p>SCORE:</p>
-        <p id="score-qty">0</p>
+        <div class="play__score__container__capsules">
+          <p>CAPSULES:</p>
+          <p id="score-qty">0</p>
+        </div>
+        <div class="play__score__container__resilience">
+          <p>TOWN RESILIENCE</p>
+          <progress id="town" value="20" max="20"></progress>
+        </div>
       </div>
       <div id="boss-bar" class="play__boss__bar">
         <progress id="health" value="1000" max="1000"></progress>
-        <p>KITUS RZEPAN</p>
+        <p>THE MOTHERSHIP</p>
       </div>
       <!-- PLAY CANVAS -->
       <canvas></canvas>
