@@ -37,7 +37,7 @@ class Play {
       active: true
     };
     let frames = 0;
-    let randomFrame = Math.floor(Math.random() * 300 + 500);
+    let randomFrame = Math.floor(Math.random() * 300) + 500;
     let score = 0;
     const enemyGrids = [];
     const enemyProjectiles = [];
@@ -81,18 +81,21 @@ class Play {
     let velocityXRight;
     let velocityYUp;
     let velocityYDown;
+    let propellerSpaceX;
     if(window.innerWidth <= 540) {
       bottomMargin = 190;
       velocityXLeft = -5;
       velocityXRight = 5;
       velocityYUp = -5;
       velocityYDown = 5;
+      propellerSpaceX = 1.25;
     } else {
       bottomMargin= 50;
       velocityXLeft = -7;
       velocityXRight = 7;
       velocityYUp = -7;
       velocityYDown = 7;
+      propellerSpaceX = 2.25;
     }
     const player = new Player(bottomMargin);
 
@@ -246,15 +249,18 @@ class Play {
         player.velocity.x = velocityXLeft;
         if (player.frameX >= 1) {
           player.frameX--;
+          player.imagePropeller.position.x -= propellerSpaceX;
         }
       } else if(keys.right.pressed && player.position.x <= (canvas.width - player.width)) {
         player.velocity.x = velocityXRight;
         if (player.frameX <= 24) {
           player.frameX++;
+          player.imagePropeller.position.x += propellerSpaceX;
         }
       } else {
         player.velocity.x = 0;
         player.frameX = 13;
+        player.imagePropeller.position.x = player.position.x + player.width / 2 - player.imagePropeller.width / 2 + player.spaceX;
       }
       if(keys.up.pressed && player.position.y >= 0) {
         player.velocity.y = velocityYUp;
@@ -320,7 +326,7 @@ class Play {
       //  new grids of enemies
       if(frames % randomFrame === 0) {
         enemyGrids.push(new EnemyGrid());
-        randomFrame = Math.floor(Math.random() * 300 + 500);
+        randomFrame = Math.floor(Math.random() * 300) + 500;
         frames = 0;
       }
 

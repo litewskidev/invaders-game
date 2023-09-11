@@ -42,16 +42,16 @@ class Player {
 
     imagePropeller.onload = () => {
       let scale;
-      let spaceX;
+      thisPlayer.spaceX;
       let spaceY;
       if(window.innerWidth <= 540) {
         scale = .4;
-        spaceX = 3.1;
+        thisPlayer.spaceX = 3.1;
         spaceY = 6.2;
       } else {
         scale = .7;
-        spaceX = 5.3;
-        spaceY = 10;
+        thisPlayer.spaceX = 5.5;
+        spaceY = 10.5;
       }
       thisPlayer.imagePropeller = imagePropeller;
       thisPlayer.imagePropeller.spriteWidth = 69;
@@ -59,7 +59,7 @@ class Player {
       thisPlayer.imagePropeller.width = thisPlayer.imagePropeller.spriteWidth * scale;
       thisPlayer.imagePropeller.height = thisPlayer.imagePropeller.spriteHeight * scale;
       thisPlayer.imagePropeller.position = {
-        x: canvas.width / 2 - thisPlayer.imagePropeller.width / 2 + spaceX,
+        x: canvas.width / 2 - thisPlayer.imagePropeller.width / 2 + thisPlayer.spaceX,
         y: canvas.height - thisPlayer.imagePropeller.height - thisPlayer.height - thisPlayer.bottomMargin + spaceY
       };
       thisPlayer.propellerFrameX = 0;
