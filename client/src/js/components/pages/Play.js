@@ -4,6 +4,7 @@ import Boss from '../elements/Boss.js';
 import EnemyGrid from '../elements/EnemyGrid.js';
 import Explosion from '../elements/Explosion.js';
 import Player from '../elements/Player.js';
+import Point from '../elements/Point.js';
 import Projectile from '../elements/Projectile.js';
 
 class Play {
@@ -17,6 +18,7 @@ class Play {
   initGame() {
     //  ELEMENTS
     const canvas = document.querySelector(select.play.canvas);
+    const startBanner = document.querySelector('#startgame-banner');
     const scoreDisplay = document.querySelector(select.play.score);
     const scoreContainer = document.querySelector(select.play.scoreContainer);
     const endGameModal = document.querySelector(select.play.endModal);
@@ -36,16 +38,26 @@ class Play {
 
     //  GAME
     let game = {
+      start: false,
       over: false,
       active: true
     };
+    setTimeout(() => {
+      startBanner.classList.add('show');
+    }, 100);
+    setTimeout(() => {
+      game.start = true;
+      startBanner.classList.add('hide');
+    }, 5000);
+
     let frames = 0;
-    let randomFrame = Math.floor(Math.random() * 300) + 500;
+    let randomFrame = Math.floor(Math.random() * 800) + 500;
     let score = 0;
     const enemyGrids = [];
     const enemyProjectiles = [];
     const projectiles = [];
     const explosions = [];
+    const points = [];
     const boss = new Boss();
     let bossHealth = 1000;
 
@@ -287,135 +299,158 @@ class Play {
       });
 
       //  enemies
-      if(score < 3000) {
-        enemyGrids.forEach((grid, index) => {
-          //  decrement score if enemy pass through the player
-          if(grid.position.y > canvas.height) {
-            enemyGrids.splice(index, 1);
-            grid.enemies.forEach(() => {
-              score -= 10;
-              scoreDisplay.innerHTML = score;
-            });
-          } else {
-            grid.update();
-            if(frames % 100 === 0 && grid.enemies.length > 0) {
-              grid.enemies[Math.floor(Math.random() * grid.enemies.length)].shoot(enemyProjectiles);
-            }
-            grid.enemies.forEach((enemy, e) => {
-              enemy.update( {velocity: grid.velocity} );
-              //  enemies collision detection
-              projectiles.forEach((projectile, p) => {
-                if(projectile.position.y + 15 <= enemy.position.y + enemy.height
-                && projectile.position.y + (projectile.height - 15) >= enemy.position.y
-                && projectile.position.x <= enemy.position.x + enemy.width
-                && projectile.position.x + projectile.width >= enemy.position.x) {
-                  setTimeout(() => {
-                    const enemyExist = grid.enemies.find(
-                      wantedEnemy => wantedEnemy === enemy
-                    );
-                    const projectileExist = projectiles.find(
-                      wantedProjectile => wantedProjectile === projectile
-                    );
-                    // remove enemies, projectiles & increment score
-                    if(enemyExist && projectileExist) {
-                      score += 10;
-                      scoreDisplay.innerHTML = score;
-                      generateExplosions({ obj: enemy }, 15, 'black', 1.5);  //  & generate explosion
-                      grid.enemies.splice(e, 1);
-                      projectiles.splice(p, 1);
-                      // recalculate enemies grid width
-                      if(grid.enemies.length > 0) {
-                        const firstEnemy = grid.enemies[0];
-                        const lastEnemy = grid.enemies[grid.enemies.length - 1];
-                        grid.width = lastEnemy.position.x - firstEnemy.position.x + lastEnemy.width;
-                        grid.position.x = firstEnemy.position.x;
-                      } else {
-                        enemyGrids.splice(index, 1);
-                      }
-                    }
-                  }, 0);
-                }
+      if(game.start === true) {
+        if(score < 3000) {
+          enemyGrids.forEach((grid, index) => {
+            //  decrement score if enemy pass through the player
+            if(grid.position.y > canvas.height) {
+              enemyGrids.splice(index, 1);
+              grid.enemies.forEach(() => {
+                score -= 10;
+                scoreDisplay.innerHTML = score;
               });
-            });
+            } else {
+              grid.update();
+              if(frames % 100 === 0 && grid.enemies.length > 0) {
+                grid.enemies[Math.floor(Math.random() * grid.enemies.length)].shoot(enemyProjectiles);
+              }
+              grid.enemies.forEach((enemy, e) => {
+                enemy.update( {velocity: grid.velocity} );
+                //  enemies collision detection
+                projectiles.forEach((projectile, p) => {
+                  if(projectile.position.y + 15 <= enemy.position.y + enemy.height
+                  && projectile.position.y + (projectile.height - 15) >= enemy.position.y
+                  && projectile.position.x <= enemy.position.x + enemy.width
+                  && projectile.position.x + projectile.width >= enemy.position.x) {
+                    setTimeout(() => {
+                      const enemyExist = grid.enemies.find(
+                        wantedEnemy => wantedEnemy === enemy
+                      );
+                      const projectileExist = projectiles.find(
+                        wantedProjectile => wantedProjectile === projectile
+                      );
+                      // remove enemies, projectiles & increment score
+                      if(enemyExist && projectileExist) {
+                        generateExplosions({ obj: enemy }, 15, 'black', 1.5);  //  & generate explosion
+                        grid.enemies.splice(e, 1);
+                        projectiles.splice(p, 1);
+                        if(e % 6 === 2){
+                          points.push(new Point({
+                            position: {
+                              x: enemy.position.x,
+                              y: enemy.position.y
+                            }
+                          }));
+                        }
+                        // recalculate enemies grid width
+                        if(grid.enemies.length > 0) {
+                          const firstEnemy = grid.enemies[0];
+                          const lastEnemy = grid.enemies[grid.enemies.length - 1];
+                          grid.width = lastEnemy.position.x - firstEnemy.position.x + lastEnemy.width;
+                          grid.position.x = firstEnemy.position.x;
+                        } else {
+                          enemyGrids.splice(index, 1);
+                        }
+                      }
+                    }, 0);
+                  }
+                });
+              });
+            }
+          });
+        } else {
+          //  boss
+          scoreContainer.classList.add('noDisplay');
+          healthContainer.classList.add('display');
+          boss.update();
+          if(frames % 80 === 0 && game.over === false) {
+            boss.shoot(enemyProjectiles);
+          }
+          projectiles.forEach((projectile, p) => {
+            if(projectile.position.y + 15 <= boss.position.y + boss.height / 2
+            && projectile.position.y + (projectile.height - 15) >= boss.position.y
+            && projectile.position.x <= boss.position.x + boss.width
+            && projectile.position.x + projectile.width >= boss.position.x) {
+              bossHealth -= 5;
+              healthBar.value -= 5;
+              projectiles.splice(p, 1);
+              generateExplosions({ obj: boss }, 15, 'white', 1);
+            }
+          });
+          if(bossHealth === 0) {
+            boss.opacity = 0;
+            generateExplosions({ obj: boss }, 40, 'black', 1.8);
+            game.over = true;
+            setTimeout(() => {
+              game.active = false;
+            }, 2000);
+          }
+        }
+
+        //  points
+        points.forEach((point, index) => {
+          if(point.position.y > canvas.height) {
+            points.splice(index, 1);
+          } else if(point.position.y + (point.height - 15) >= player.position.y
+            && point.position.y + 15 <= player.position.y + player.height / 2
+            && point.position.x <= player.position.x + player.width
+            && point.position.x + point.width >= player.position.x) {
+            generateExplosions({ obj: point }, 3, '#B8FFAD', 10);
+            score += 10;
+            scoreDisplay.innerHTML = score;
+            points.splice(index, 1);
+          } else {
+            point.update();
           }
         });
-      } else {
-        //  boss
-        scoreContainer.classList.add('noDisplay');
-        healthContainer.classList.add('display');
-        boss.update();
-        if(frames % 80 === 0 && game.over === false) {
-          boss.shoot(enemyProjectiles);
+
+        //  new grids of enemies
+        if(frames % randomFrame === 0) {
+          enemyGrids.push(new EnemyGrid());
+          randomFrame = Math.floor(Math.random() * 300) + 500;
+          frames = 0;
         }
-        projectiles.forEach((projectile, p) => {
-          if(projectile.position.y + 15 <= boss.position.y + boss.height / 2
-          && projectile.position.y + (projectile.height - 15) >= boss.position.y
-          && projectile.position.x <= boss.position.x + boss.width
-          && projectile.position.x + projectile.width >= boss.position.x) {
-            bossHealth -= 5;
-            healthBar.value -= 5;
-            projectiles.splice(p, 1);
-            generateExplosions({ obj: boss }, 15, 'white', 1);
+
+        //  enemy projectiles
+        enemyProjectiles.forEach((enemyProjectile, index) => {
+          if(enemyProjectile.position.y + enemyProjectile.height >= canvas.height
+            || enemyProjectile.position.y <= 0
+            || enemyProjectile.position.x + enemyProjectile.width >= canvas.width
+            || enemyProjectile.position.x <= 0) {
+            enemyProjectiles.splice(index, 1);
+          } else {
+            enemyProjectile.update();
+          }
+
+          //  player collision detection & GAME OVER
+          if(enemyProjectile.position.y - 15 <= player.position.y + (player.height - 15)
+          && enemyProjectile.position.y + 15 >= player.position.y
+          && enemyProjectile.position.x <= player.position.x + player.width
+          && enemyProjectile.position.x + enemyProjectile.width >= player.position.x) {
+            enemyProjectiles.splice(index, 1);
+            generateExplosions({ obj: player }, 40, 'green', 1.8);
+            player.opacity = 0;
+            game.over = true;
+            setTimeout(() => {
+              game.active = false;
+              endGameModal.classList.add('show');
+            }, 800);
           }
         });
-        if(bossHealth === 0) {
-          boss.opacity = 0;
-          generateExplosions({ obj: boss }, 40, 'black', 1.8);
-          game.over = true;
-          setTimeout(() => {
-            game.active = false;
-          }, 2000);
-        }
+
+        //  explosions
+        explosions.forEach((explosion, index) => {
+          if(explosion.opacity <= 0) {
+            setTimeout(() => {
+              explosions.splice(index, 1);
+            }, 0);
+          } else {
+            explosion.update();
+          }
+        });
+
+        frames++;
       }
-
-
-
-      //  new grids of enemies
-      if(frames % randomFrame === 0) {
-        enemyGrids.push(new EnemyGrid());
-        randomFrame = Math.floor(Math.random() * 300) + 500;
-        frames = 0;
-      }
-
-      //  enemy projectiles
-      enemyProjectiles.forEach((enemyProjectile, index) => {
-        if(enemyProjectile.position.y + enemyProjectile.height >= canvas.height
-          || enemyProjectile.position.y <= 0
-          || enemyProjectile.position.x + enemyProjectile.width >= canvas.width
-          || enemyProjectile.position.x <= 0) {
-          enemyProjectiles.splice(index, 1);
-        } else {
-          enemyProjectile.update();
-        }
-
-        //  player collision detection & GAME OVER
-        if(enemyProjectile.position.y - 15 <= player.position.y + (player.height - 15)
-        && enemyProjectile.position.y + 15 >= player.position.y
-        && enemyProjectile.position.x <= player.position.x + player.width
-        && enemyProjectile.position.x + enemyProjectile.width >= player.position.x) {
-          enemyProjectiles.splice(index, 1);
-          generateExplosions({ obj: player }, 40, 'green', 1.8);
-          player.opacity = 0;
-          game.over = true;
-          setTimeout(() => {
-            game.active = false;
-            endGameModal.classList.add('show');
-          }, 800);
-        }
-      });
-
-      //  explosions
-      explosions.forEach((explosion, index) => {
-        if(explosion.opacity <= 0) {
-          setTimeout(() => {
-            explosions.splice(index, 1);
-          }, 0);
-        } else {
-          explosion.update();
-        }
-      });
-
-      frames++;
     };
 
     animate();
