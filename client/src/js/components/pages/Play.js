@@ -1,5 +1,6 @@
 import { select, templates } from '../../settings.js';
 import Background from '../elements/Background.js';
+import Boss from '../elements/Boss.js';
 import EnemyGrid from '../elements/EnemyGrid.js';
 import Explosion from '../elements/Explosion.js';
 import Player from '../elements/Player.js';
@@ -43,6 +44,7 @@ class Play {
     const enemyProjectiles = [];
     const projectiles = [];
     const explosions = [];
+    const boss = new Boss();
 
     //  BACKGROUND
     const background = [];
@@ -282,48 +284,65 @@ class Play {
       });
 
       //  enemies
-      enemyGrids.forEach((grid, index) => {
-        grid.update();
-        if(frames % 130 === 0 && grid.enemies.length > 0) {
-          grid.enemies[Math.floor(Math.random() * grid.enemies.length)].shoot(enemyProjectiles);
-        }
-        grid.enemies.forEach((enemy, e) => {
-          enemy.update( {velocity: grid.velocity} );
-          //  enemies collision detection
-          projectiles.forEach((projectile, p) => {
-            if(projectile.position.y + 15 <= enemy.position.y + enemy.height
-            && projectile.position.y + (projectile.height - 15) >= enemy.position.y
-            && projectile.position.x <= enemy.position.x + enemy.width
-            && projectile.position.x + projectile.width >= enemy.position.x) {
-              setTimeout(() => {
-                const enemyExist = grid.enemies.find(
-                  wantedEnemy => wantedEnemy === enemy
-                );
-                const projectileExist = projectiles.find(
-                  wantedProjectile => wantedProjectile === projectile
-                );
-                // remove enemies, projectiles & increment score
-                if(enemyExist && projectileExist) {
-                  score += 10;
-                  scoreDisplay.innerHTML = score;
-                  generateExplosions({ obj: enemy }, 15, 'black', 1.5);  //  & generate explosion
-                  grid.enemies.splice(e, 1);
-                  projectiles.splice(p, 1);
-                  // recalculate enemies grid width
-                  if(grid.enemies.length > 0) {
-                    const firstEnemy = grid.enemies[0];
-                    const lastEnemy = grid.enemies[grid.enemies.length - 1];
-                    grid.width = lastEnemy.position.x - firstEnemy.position.x + lastEnemy.width;
-                    grid.position.x = firstEnemy.position.x;
-                  } else {
-                    enemyGrids.splice(index, 1);
-                  }
-                }
-              }, 0);
+      if(score < 200) {
+        enemyGrids.forEach((grid, index) => {
+          //  decrement score if enemy pass through the player
+          if(grid.position.y > canvas.height) {
+            enemyGrids.splice(index, 1);
+            grid.enemies.forEach(() => {
+              score -= 10;
+              scoreDisplay.innerHTML = score;
+            });
+          } else {
+            grid.update();
+            if(frames % 130 === 0 && grid.enemies.length > 0) {
+              grid.enemies[Math.floor(Math.random() * grid.enemies.length)].shoot(enemyProjectiles);
             }
-          });
+            grid.enemies.forEach((enemy, e) => {
+              enemy.update( {velocity: grid.velocity} );
+              //  enemies collision detection
+              projectiles.forEach((projectile, p) => {
+                if(projectile.position.y + 15 <= enemy.position.y + enemy.height
+                && projectile.position.y + (projectile.height - 15) >= enemy.position.y
+                && projectile.position.x <= enemy.position.x + enemy.width
+                && projectile.position.x + projectile.width >= enemy.position.x) {
+                  setTimeout(() => {
+                    const enemyExist = grid.enemies.find(
+                      wantedEnemy => wantedEnemy === enemy
+                    );
+                    const projectileExist = projectiles.find(
+                      wantedProjectile => wantedProjectile === projectile
+                    );
+                    // remove enemies, projectiles & increment score
+                    if(enemyExist && projectileExist) {
+                      score += 10;
+                      scoreDisplay.innerHTML = score;
+                      generateExplosions({ obj: enemy }, 15, 'black', 1.5);  //  & generate explosion
+                      grid.enemies.splice(e, 1);
+                      projectiles.splice(p, 1);
+                      // recalculate enemies grid width
+                      if(grid.enemies.length > 0) {
+                        const firstEnemy = grid.enemies[0];
+                        const lastEnemy = grid.enemies[grid.enemies.length - 1];
+                        grid.width = lastEnemy.position.x - firstEnemy.position.x + lastEnemy.width;
+                        grid.position.x = firstEnemy.position.x;
+                      } else {
+                        enemyGrids.splice(index, 1);
+                      }
+                    }
+                  }, 0);
+                }
+              });
+            });
+          }
         });
-      });
+      } else {
+        //  boss
+        boss.update();
+        if(frames % 130 === 0) {
+          boss.shoot(enemyProjectiles);
+        }
+      }
 
       //  new grids of enemies
       if(frames % randomFrame === 0) {
@@ -334,11 +353,16 @@ class Play {
 
       //  enemy projectiles
       enemyProjectiles.forEach((enemyProjectile, index) => {
-        if(enemyProjectile.position.y + enemyProjectile.height >= canvas.height) {
+        if(enemyProjectile.position.y + enemyProjectile.height >= canvas.height
+          || enemyProjectile.position.y <= 0
+          || enemyProjectile.position.x + enemyProjectile.width >= canvas.width
+          || enemyProjectile.position.x <= 0) {
           enemyProjectiles.splice(index, 1);
         } else {
           enemyProjectile.update();
         }
+
+        console.log(enemyProjectiles);
         //  player collision detection & GAME OVER
         if(enemyProjectile.position.y - 15 <= player.position.y + (player.height - 15)
         && enemyProjectile.position.y + 15 >= player.position.y

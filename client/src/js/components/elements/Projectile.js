@@ -1,13 +1,14 @@
 import { select } from '../../settings.js';
 
 class Projectile {
-  constructor( {position, velocity, site} ) {
+  constructor( {position, velocity, site, rotation = 0} ) {
     const thisProjectile = this;
 
     //  POSITION
     thisProjectile.position = position;
     thisProjectile.velocity = velocity;
     thisProjectile.site = site;
+    thisProjectile.rotation = rotation;
 
     //  CANVAS
     const canvas = document.querySelector(select.play.canvas);
@@ -16,6 +17,8 @@ class Projectile {
     //  IMAGE
     const image = new Image();
     image.src = `../../images/projectiles/bullet_${site}.png`;
+
+    //  SIZE & POSITION
     image.onload = () => {
       let scale;
       if(window.innerWidth <= 540) {
@@ -30,6 +33,16 @@ class Projectile {
 
     //  DRAW
     thisProjectile.draw = () => {
+      c.save();
+      c.translate(
+        thisProjectile.position.x,
+        thisProjectile.position.y
+      );
+      c.rotate(thisProjectile.rotation);
+      c.translate(
+        -thisProjectile.position.x,
+        -thisProjectile.position.y
+      );
       c.drawImage(
         thisProjectile.image,
         thisProjectile.position.x,
@@ -37,6 +50,7 @@ class Projectile {
         thisProjectile.width,
         thisProjectile.height
       );
+      c.restore();
     };
 
     thisProjectile.update = () => {
