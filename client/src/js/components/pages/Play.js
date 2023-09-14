@@ -19,6 +19,7 @@ class Play {
     //  ELEMENTS
     const canvas = document.querySelector(select.play.canvas);
     const startBanner = document.querySelector(select.play.startBanner);
+    const timeDisplay = document.querySelector('#time');
     const resilienceBar = document.querySelector(select.play.resilienceBar);
     const scoreDisplay = document.querySelector(select.play.score);
     const scoreContainer = document.querySelector(select.play.scoreContainer);
@@ -37,6 +38,35 @@ class Play {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
+    //  TIME
+    let mins = 0;
+    let secs = 0;
+    let startTime = 0;
+    let elapsedTime = 0;
+    let paused = true;
+    let intervalId;
+    const time = () => {
+      if(paused) {
+        paused = false;
+        startTime = Date.now() - elapsedTime;
+        intervalId = setInterval(updateTime);
+      }
+
+      function updateTime() {
+        elapsedTime = Date.now() - startTime;
+        secs = Math.floor((elapsedTime / 1000) % 60);
+        mins = Math.floor((elapsedTime / (1000 * 60)) % 60);
+        secs = format(secs);
+        mins = format(mins);
+
+        timeDisplay.innerHTML = `${mins}:${secs}`;
+
+        function format(unit) {
+          return (('0') + unit).length > 2 ? unit : '0' + unit;
+        }
+      }
+    };
+
     //  GAME
     let game = {
       start: false,
@@ -49,6 +79,7 @@ class Play {
     setTimeout(() => {
       startBanner.classList.add('hide');
       game.start = true;
+      time();
     }, 4500);
 
     let frames = 0;
@@ -118,6 +149,20 @@ class Play {
       propellerSpaceX = 2.25;
     }
     const player = new Player(bottomMargin);
+    const playerGameOver = () => {
+      generateExplosions({ obj: player }, 30, 'green', 1.5);
+      player.opacity = 0;
+      game.over = true;
+      if(!paused) {
+        paused = true;
+        startTime = Date.now() - startTime;
+        clearInterval(intervalId);
+      }
+      setTimeout(() => {
+        game.active = false;
+        endGameModal.classList.add('show');
+      }, 800);
+    };
 
     //  CONTROLS
     restartBtn.addEventListener('click', () => {  //  restart game
@@ -357,13 +402,7 @@ class Play {
                   if(enemyExist) {
                     grid.enemies.splice(e, 1);
                     generateExplosions({ obj: enemy }, 15, 'black', 1.5);
-                    generateExplosions({ obj: player }, 30, 'green', 1.5);
-                    player.opacity = 0;
-                    game.over = true;
-                    setTimeout(() => {
-                      game.active = false;
-                      endGameModal.classList.add('show');
-                    }, 800);
+                    playerGameOver();
                   }
                 }, 0);
               }
@@ -434,13 +473,7 @@ class Play {
                 && boss.position.x <= player.position.x + player.width
                 && boss.position.x + boss.width >= player.position.x
               ){
-                generateExplosions({ obj: player }, 30, 'green', 1.5);
-                player.opacity = 0;
-                game.over = true;
-                setTimeout(() => {
-                  game.active = false;
-                  endGameModal.classList.add('show');
-                }, 800);
+                playerGameOver();
               }
               if(bossHealth === 0) {
                 bossArray.splice(b, 1);
@@ -500,13 +533,7 @@ class Play {
           && enemyProjectile.position.x + enemyProjectile.width >= player.position.x) {
             setTimeout(() => {
               enemyProjectiles.splice(index, 1);
-              generateExplosions({ obj: player }, 30, 'green', 1.5);
-              player.opacity = 0;
-              game.over = true;
-              setTimeout(() => {
-                game.active = false;
-                endGameModal.classList.add('show');
-              }, 800);
+              playerGameOver();
             }, 0);
           }
         });

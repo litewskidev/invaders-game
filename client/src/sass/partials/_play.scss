@@ -49,9 +49,19 @@
   }
 }
 
+.play__score__container__capsules__time {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
 .play__score__container__capsules {
   display: flex;
   gap: .3rem;
+}
+
+.play__score__container__time {
+  margin-top: -.5rem;
 }
 
 .play__score__container__resilience {
