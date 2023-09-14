@@ -97,7 +97,6 @@
       </div>
       <!-- PLAY CANVAS -->
       <canvas></canvas>
-
       <!-- MOBILE MOVEMENT -->
       <div class="mobile__controls__container">
         <div class="movement__btns__mobile">
@@ -110,12 +109,22 @@
         </div>
         <div id="shoot" class="shoot__btn__mobile"></div>
       </div>
-
       <!-- END GAME MODAL -->
       <div id="end-modal" class="play__endgame__modal">
         <div class="play__endgame__modal__inner">
           <p>GAME OVER</p>
           <button id="restart-btn" class="restart">RESTART</button>
+        </div>
+      </div>
+      <!--WIN GAME MODAL-->
+      <div id="win-modal" class="play__wingame__modal">
+        <div class="play__wingame__modal__inner">
+          <p>YOU WIN!</p>
+          <div class="play__wingame__modal__inner__time">
+            <p>TIME:</p>
+            <p id="win-time"></p>
+          </div>
+          <p></p>
         </div>
       </div>
     </section>
