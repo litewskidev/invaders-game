@@ -1,3 +1,5 @@
+import { push } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
+import { scoresDB } from '../../firebase.js';
 import { select, templates } from '../../settings.js';
 import Background from '../elements/Background.js';
 import Boss from '../elements/Boss.js';
@@ -15,6 +17,21 @@ class Play {
     thisPlay.render();
   }
 
+  initFirebase() {
+    const inputFieldName = document.querySelector('#input-field-name');
+    const inputFieldScore = document.querySelector('#field-score');
+    const addButton = document.querySelector('#add-score-button');
+
+    addButton.addEventListener('click', () => {
+      let inputValueName = inputFieldName.value;
+      let inputValueScore = inputFieldScore.value;
+
+      push(scoresDB, { name: inputValueName, score: inputValueScore });
+      inputFieldName.value = null;
+      inputFieldScore.value = null;
+    });
+  }
+
   initGame() {
     //  ELEMENTS
     const canvas = document.querySelector(select.play.canvas);
@@ -24,7 +41,7 @@ class Play {
     const scoreDisplay = document.querySelector(select.play.score);
     const scoreContainer = document.querySelector(select.play.scoreContainer);
     const winGameModal = document.querySelector(select.play.winModal);
-    const winTime = document.querySelector(select.play.winTime);
+    const winTime = document.querySelector('#field-score');
     const endGameModal = document.querySelector(select.play.endModal);
     const restartBtn = document.querySelector(select.play.restartBtn);
     const up = document.querySelector(select.play.mobile.up);
@@ -485,7 +502,7 @@ class Play {
             ){
               playerGameOver();
             }
-            if(bossHealth === 0) {
+            if(bossHealth < 1) {
               setTimeout(() => {
                 bossArray.splice(b, 1);
               }, 0);
@@ -495,6 +512,7 @@ class Play {
                 game.active = false;
                 winGameModal.classList.add('show');
                 winTime.innerHTML = `${mins}:${secs}`;
+                winTime.value = `${mins}:${secs}`;
               }, 800);
             }
           });
@@ -587,6 +605,7 @@ class Play {
     thisPlay.dom.wrapper = thisPlay.element;
     thisPlay.element.innerHTML = generatedHTML;
     thisPlay.initGame();
+    thisPlay.initFirebase();
   }
 }
 

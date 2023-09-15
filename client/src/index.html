@@ -120,11 +120,11 @@
       <div id="win-modal" class="play__wingame__modal">
         <div class="play__wingame__modal__inner">
           <p>YOU WIN!</p>
-          <div class="play__wingame__modal__inner__time">
-            <p>TIME:</p>
-            <p id="win-time"></p>
-          </div>
-          <p></p>
+          <form>
+            <input id="input-field-name" type="text" placeholder="NAME" />
+            <p id="field-score"></p>
+            <button id="add-score-button" type="submit">ADD</button>
+          </form>
         </div>
       </div>
     </section>
@@ -137,6 +137,7 @@
       </div>
       <div class="leaderboards__container">
         <!-- LEADERBOARDS PAGE-->
+        <div id="leaderboards-list" class="leaderboards__container__list"></div>
       </div>
     </section>
   </script>
