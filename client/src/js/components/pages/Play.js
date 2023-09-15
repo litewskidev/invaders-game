@@ -18,11 +18,11 @@ class Play {
   }
 
   initFirebase() {
-    const inputFieldName = document.querySelector('#input-field-name');
-    const inputFieldScore = document.querySelector('#field-score');
-    const addButton = document.querySelector('#add-score-button');
+    const winForm = document.querySelector(select.play.firebaseForm.form);
+    const inputFieldName = document.querySelector(select.play.firebaseForm.input);
+    const inputFieldScore = document.querySelector(select.play.firebaseForm.score);
 
-    addButton.addEventListener('click', () => {
+    winForm.addEventListener('submit', () => {
       let inputValueName = inputFieldName.value;
       let inputValueScore = inputFieldScore.value;
 
@@ -112,7 +112,7 @@ class Play {
     let townResilience = 20;
     const bossArray = [];
     bossArray.push(new Boss());
-    let bossHealth = 800;
+    let bossHealth = 10;
 
     //  BACKGROUND
     const background = [];
@@ -395,7 +395,7 @@ class Play {
 
       //  enemies
       if(game.start === true) {
-        if(score < 50) {
+        if(score < 1) {
           enemyGrids.forEach((grid, index) => {
             grid.update();
             if(frames % 150 === 0 && grid.enemies.length > 0) {

@@ -50,6 +50,11 @@ export const select = {
     pageLinks: '.play-btn',
     healthBar: '#health',
     healthContainer: '#boss-bar',
+    firebaseForm: {
+      form: '#win-form',
+      input: '#input-field-name',
+      score: '#field-score'
+    },
     mobile: {
       up: '#up',
       down: '#down',
