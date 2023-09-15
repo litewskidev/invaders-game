@@ -15,11 +15,21 @@ class Leaderboards {
 
     onValue(scoresDB, (snapshot) => {
       let scoresArray = Object.values(snapshot.val());
-      scoresArray.forEach((score) => {
+      scoresArray.sort((a, b) => parseInt(a.score.replace(':','')) - parseInt(b.score.replace(':','')));
+      scoresArray.slice(0, 10).forEach((score, p) => {
         leaderboardsList.innerHTML += `
-        <div class="leaderboards__container__list__element">
-          <div>${score.name}</div>
-          <div>${score.score}</div>
+        <div class="leaderboards__container__list__element__box box__${p + 1}">
+          <div class="leaderboards__container__list__element__box__place">
+            <p>#${p + 1}</p>
+          </div>
+          <div class="leaderboards__container__list__element">
+            <div class="leaderboards__container__list__element__name">
+              <p>${score.name}</p>
+            </div>
+            <div class="leaderboards__container__list__element__score">
+              <p>${score.score}</p>
+            </div>
+          </div>
         </div>
         `;
       });

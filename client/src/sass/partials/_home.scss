@@ -70,6 +70,13 @@
   }
 }
 
+.home__nav__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .6rem;
+}
+
 .home__nav {
   display: flex;
   align-items: center;
@@ -91,6 +98,10 @@
 
   a:last-of-type {
     border-radius: 5rem 0rem 5rem 5rem;
+  }
+
+  &.home__howto a {
+    border-radius: 0rem 0rem 5rem 5rem;
   }
 }
 

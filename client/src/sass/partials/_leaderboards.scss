@@ -1,5 +1,151 @@
+.leaderboards__widget {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+
+  h1 {
+    font-weight: 500;
+    font-size: 2.5rem;
+    line-height: 1;
+    border-bottom: 1px solid black;
+    margin-top: 2.5rem;
+  }
+}
+
+.leaderboards__container {
+  border: 1px solid black;
+  border-radius: 0 5rem 5rem 5rem;
+  width: 30%;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.leaderboards__container__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.leaderboards__container__list__element__box {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, .25);
+  border-radius: 0 5rem 5rem 5rem;
+  width: 80%;
+  height: 4rem;
+  padding-left: 1rem;
+}
+
+.leaderboards__container__list__element__box__place {
+  p {
+    font-size: 1.5rem;
+  }
+}
+
+.box__1 {
+  .leaderboards__container__list__element__box__place {
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, .25);
+    border: 1px solid rgb(212, 175, 55);
+    background-color: rgba(212, 175, 55, .2);
+    border-radius: 50%;
+    padding: .6rem;
+
+    p {
+      color: rgb(212, 175, 55);
+      text-shadow: 1px 1px 1px black;
+    }
+  }
+}
+
+.box__2 {
+  .leaderboards__container__list__element__box__place {
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, .25);
+    border: 1px solid rgb(170, 169, 173);
+    background-color: rgba(170, 169, 173, .2);
+    border-radius: 50%;
+    padding: .5rem;
+
+    p {
+      color: rgb(170, 169, 173);
+      text-shadow: 1px 1px 1px black;
+    }
+  }
+}
+
+.box__3 {
+  .leaderboards__container__list__element__box__place {
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, .25);
+    border: 1px solid rgb(176, 141, 87);
+    background-color: rgba(176, 141, 87, .2);
+    border-radius: 50%;
+    padding: .4rem;
+
+    p {
+      color: rgb(176, 141, 87);
+      text-shadow: 1px 1px 1px black;
+    }
+  }
+}
+
 .leaderboards__container__list__element {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: .5rem;
+  width: 100%;
+
+  p {
+    font-size: 1.5rem;
+  }
+}
+
+.leaderboards__container__list__element__name {
+  width: 70%;
+}
+
+.leaderboards__container__list__element__score {
+  width: 30%;
+}
+
+@media (max-width: 540px) {
+
+  .leaderboards__widget {
+    gap: 1rem;
+
+    h1 {
+      font-size: 2rem;
+      margin-top: 2rem;
+    }
+  }
+
+  .leaderboards__container {
+    width: 90%;
+  }
+
+  .leaderboards__container__list {
+    gap: .5rem;
+  }
+
+  .leaderboards__container__list__element__box {
+    width: 85%;
+    height: 3.2rem;
+  }
+
+  .leaderboards__container__list__element__box__place {
+    p {
+      font-size: 1.2rem;
+    }
+  }
+
+  .leaderboards__container__list__element {
+    p {
+      font-size: 1.2rem;
+    }
+  }
 }
