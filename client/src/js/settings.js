@@ -1,21 +1,30 @@
 export const select = {
-  pages : {
+  pages: {
     home: '#home',
     play: '#play',
-    leaderboards: '#leaderboards'
+    leaderboards: '#leaderboards',
+    instructions: '#instructions'
+  },
+
+  homeLinkIDs: {
+    play: 'play',
+    leaderboards: 'leaderboards',
+    instructions: 'instructions'
   },
 
   templateOf: {
     homeWidget: '#template__home__widget',
     playWidget: '#template__play__widget',
-    leaderboardsWidget: '#template__leaderboards__widget'
+    leaderboardsWidget: '#template__leaderboards__widget',
+    instructionsWidget: '#template__instructions__widget'
   },
 
   wrapperOf: {
     pages: '#pages',
     home: '.home__wrapper',
     play: '.play__wrapper',
-    leaderboards: '.leaderboards__wrapper'
+    leaderboards: '.leaderboards__wrapper',
+    instructions: '.instructions__wrapper'
   },
 
   mainNav: {
@@ -51,7 +60,8 @@ export const select = {
   },
 
   leaderboards: {
-    pageLinks: '.leaderboards-btn'
+    pageLinks: '.leaderboards-btn',
+    list: '#leaderboards-list'
   },
 };
 
@@ -68,5 +78,6 @@ export const classNames = {
 export const templates = {
   homeWidget: Handlebars.compile(document.querySelector(select.templateOf.homeWidget).innerHTML),
   playWidget: Handlebars.compile(document.querySelector(select.templateOf.playWidget).innerHTML),
-  leaderboardsWidget: Handlebars.compile(document.querySelector(select.templateOf.leaderboardsWidget).innerHTML)
+  leaderboardsWidget: Handlebars.compile(document.querySelector(select.templateOf.leaderboardsWidget).innerHTML),
+  instructionsWidget: Handlebars.compile(document.querySelector(select.templateOf.instructionsWidget).innerHTML)
 };

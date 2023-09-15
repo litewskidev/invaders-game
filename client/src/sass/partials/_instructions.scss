@@ -1,0 +1,151 @@
+.instructions__widget {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+
+  h1 {
+    font-weight: 500;
+    font-size: 2.5rem;
+    line-height: 1;
+    border-bottom: 1px solid black;
+    margin-top: .5rem;
+  }
+}
+
+.instructions__container {
+  width: 100%;
+
+  h2 {
+    font-size: 1.5rem;
+    line-height: 1;
+    border-bottom: 1px solid black;
+  }
+}
+
+.instructions__controls__container {
+  width: 100%;
+  display: flex;
+  //align-items: center;
+  justify-content: space-between;
+}
+
+.instructions__controls {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+  border-right: 1px dotted black;
+}
+
+.instructions__controls__inner {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.instructions__controls__desktop, .instructions__controls__mobile {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.instructions__controls__mobile {
+  display: none;
+}
+
+.instructions__controls__desktop__keys, .instructions__controls__mobile__keys {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.instructions__controls__desktop__keys__movement, .instructions__controls__mobile__keys__movement {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.instructions__controls__desktop__keys__key, .instructions__controls__mobile__keys__key {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5rem;
+
+  img {
+    width: 4rem;
+    height: 4rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+  }
+}
+
+.instructions__controls__mobile__keys__key img {
+  background-color: rgba(96, 100, 97, .75);
+  border: 1px dotted black;
+}
+
+.instructions__controls__desktop__keys__key__spacebar {
+  width: 12rem;
+  height: 3rem;
+  border: 1px solid black;
+  border-radius: 1rem;
+}
+
+.mobile__key__shoot {
+  width: 5rem;
+  height: 5rem;
+  overflow: hidden;
+  cursor: default;
+  border: 1px dotted black;
+  border-radius: 50%;
+  background-color: rgb(184, 64, 64);
+}
+
+.instructions__rules {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 1rem;
+  gap: 1rem;
+}
+
+.instructions__goal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px dotted black;
+  gap: 1rem;
+}
+
+@media (max-width: 540px) {
+  .instructions__controls__desktop {
+    display: none;
+  }
+
+  .instructions__controls__mobile {
+    display: flex;
+  }
+
+  .instructions__controls__container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .instructions__controls {
+    gap: 1rem;
+    padding-right: 0;
+    padding-bottom: 1rem;
+    border-right: none;
+  }
+}

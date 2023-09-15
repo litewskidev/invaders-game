@@ -25,6 +25,10 @@
   <link rel="preload" href="/images/enemies/2.png" as="image">
   <link rel="preload" href="/images/enemies/3.png" as="image">
   <link rel="preload" href="/images/points/points_strip.png" as="image">
+  <link rel="preload" href="/images/icons/caret-down-solid.svg" as="image">
+  <link rel="preload" href="/images/icons/caret-left-solid.svg" as="image">
+  <link rel="preload" href="/images/icons/caret-right-solid.svg" as="image">
+  <link rel="preload" href="/images/icons/caret-up-solid.svg" as="image">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -44,6 +48,9 @@
     </div>
     <div id="leaderboards">
       <div class="leaderboards__wrapper"></div>
+    </div>
+    <div id="instructions">
+      <div class="instructions__wrapper"></div>
     </div>
   </main>
 
@@ -69,7 +76,7 @@
           <a href="#leaderboards" class="home-btn">LEADERBOARDS</a>
         </div>
         <div class="home__nav home__howto">
-          <a href="#howto" class="home-btn">HOW TO PLAY</a>
+          <a href="#instructions" class="home-btn">HOW TO PLAY</a>
         </div>
       </nav>
     </section>
@@ -143,6 +150,95 @@
       <div class="leaderboards__container">
         <!-- LEADERBOARDS PAGE-->
         <div id="leaderboards-list" class="leaderboards__container__list"></div>
+      </div>
+    </section>
+  </script>
+
+  <script id="template__instructions__widget" type="text/x-handlebars-template">
+    <section class="instructions__widget">
+      <div class="instructions__title">
+        <h1>HOW TO PLAY</h1>
+      </div>
+      <div class="instructions__container">
+        <div class="instructions__controls__container">
+          <div class="instructions__controls">
+            <h2>CONTROLS</h2>
+            <div class="instructions__controls__inner">
+              <div class="instructions__controls__desktop">
+                <p>DESKTOP</p>
+                <div class="instructions__controls__desktop__keys">
+                  <div class="instructions__controls__desktop__keys__movement">
+                    <div class="instructions__controls__desktop__keys__key">
+                      <img src="./images/icons/caret-up-solid.svg" />
+                      <p>UP</p>
+                    </div>
+                    <div class="instructions__controls__desktop__keys__key">
+                      <img src="./images/icons/caret-down-solid.svg" />
+                      <p>DOWN</p>
+                    </div>
+                    <div class="instructions__controls__desktop__keys__key">
+                      <img src="./images/icons/caret-left-solid.svg" />
+                      <p>LEFT</p>
+                    </div>
+                    <div class="instructions__controls__desktop__keys__key">
+                      <img src="./images/icons/caret-right-solid.svg" />
+                      <p>RIGHT</p>
+                    </div>
+                  </div>
+                  <div class="instructions__controls__desktop__keys__key">
+                    <div class="instructions__controls__desktop__keys__key__spacebar"></div>
+                    <p>SHOOT</p>
+                  </div>
+                </div>
+              </div>
+              <div class="instructions__controls__mobile">
+                <p>MOBILE</p>
+                <div class="instructions__controls__mobile__keys">
+                  <div class="instructions__controls__mobile__keys__movement">
+                    <div class="instructions__controls__mobile__keys__key">
+                      <img src="./images/icons/caret-up-solid.svg" />
+                      <p>UP</p>
+                    </div>
+                    <div class="instructions__controls__mobile__keys__key">
+                      <img src="./images/icons/caret-down-solid.svg" />
+                      <p>DOWN</p>
+                    </div>
+                    <div class="instructions__controls__mobile__keys__key">
+                      <img src="./images/icons/caret-left-solid.svg" />
+                      <p>LEFT</p>
+                    </div>
+                    <div class="instructions__controls__mobile__keys__key">
+                      <img src="./images/icons/caret-right-solid.svg" />
+                      <p>RIGHT</p>
+                    </div>
+                  </div>
+                  <div class="instructions__controls__mobile__keys__key">
+                    <div class="mobile__key__shoot"></div>
+                    <p>SHOOT</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="instructions__rules">
+            <h2>RULES</h2>
+            <div class="instructions__rules__inner">
+              <p>SHOOT ALIEN SHIPS TO COLLECT CAPSULES</p>
+              <p>COLLECT 50 CAPSULES TO LURE THE MOTHERSHIP</p>
+              <p>IF YOU COLLIDE WITH ALIEN PROJECTILE - YOU LOSE</p>
+              <p>IF YOU COLLIDE WITH ALIEN SHIP - YOU LOSE</p>
+              <p>EVERY ALIEN SHIP THAT PASS TROUGH YOU, WILL REDUCE TOWN RESILIENCE BAR</p>
+              <p>IF TOWN RESILIENCE BAR REACH ZERO - YOU LOSE</p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+        <div class="instructions__goal">
+          <h2>GOAL</h2>
+          <div class="instructions__goal__inner">
+            <p>DEFEND THE TOWN AND DEFEAT THE MOTHERSHIP IN THE SHORTEST POSSIBLE TIME.</p>
+          </div>
+        </div>
       </div>
     </section>
   </script>

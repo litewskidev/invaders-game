@@ -1,5 +1,5 @@
 import { onValue } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
-import { templates } from '../../settings.js';
+import { select, templates } from '../../settings.js';
 import { scoresDB } from '../../firebase.js';
 
 class Leaderboards {
@@ -11,7 +11,7 @@ class Leaderboards {
   }
 
   scoreList() {
-    const leaderboardsList = document.querySelector('#leaderboards-list');
+    const leaderboardsList = document.querySelector(select.leaderboards.list);
 
     onValue(scoresDB, (snapshot) => {
       let scoresArray = Object.values(snapshot.val());

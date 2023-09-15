@@ -2,6 +2,7 @@ import { classNames, select } from './settings.js';
 import Home from './components/pages/Home.js';
 import Play from './components/pages/Play.js';
 import Leaderboards from './components/pages/Leaderboards.js';
+import Instructions from './components/pages/Instructions.js';
 
 const app = {
 
@@ -31,6 +32,13 @@ const app = {
     thisApp.leaderboards = new Leaderboards(leaderboardsWrapper);
   },
 
+  initInstructions: function() {
+    const thisApp = this;
+
+    const instructionsWrapper = document.querySelector(select.wrapperOf.instructions);
+    thisApp.instructions = new Instructions(instructionsWrapper);
+  },
+
   initHome: function() {
     const thisApp = this;
 
@@ -46,11 +54,14 @@ const app = {
         const homeLinkId = clickedElem.getAttribute('href').replace('#', '');
         thisApp.activatePage(homeLinkId);
 
-        if(homeLinkId === 'play') {
+        if(homeLinkId === select.homeLinkIDs.play) {
           thisApp.initPlay();
         }
-        if (homeLinkId === 'leaderboards') {
+        if (homeLinkId === select.homeLinkIDs.leaderboards) {
           thisApp.initLeaderboards();
+        }
+        if (homeLinkId === select.homeLinkIDs.instructions) {
+          thisApp.initInstructions();
         }
       });
     }
