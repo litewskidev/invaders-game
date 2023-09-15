@@ -160,7 +160,7 @@
   width: 35%;
   background-color: white;
   border: 1px solid black;
-  border-radius: 0 15rem 15rem 15rem;
+  border-radius: 0 5rem 5rem 5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -175,13 +175,35 @@
   }
 }
 
-.play__wingame__modal__inner__time {
+.play__wingame__modal__inner form {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: .5rem;
 
-  p:first-of-type {
+  p {
     color: black;
+  }
+
+  input {
+    padding-top: .5rem;
+    padding-left: 1rem;
+    border: 1px solid black;
+    border-radius: 5rem;
+    outline: none;
+    font-family: $font-text;
+    font-size: 1rem;
+  }
+
+  button {
+    background-color: transparent;
+    border: 1px solid black;
+    border-radius: 5rem;
+    padding: .5rem 2rem;
+    padding-bottom: 0;
+    cursor: pointer;
+    font-family: $font-text;
+    font-size: 1rem;
   }
 }
 
@@ -212,7 +234,7 @@
 @media(max-width: 540px) {
   .play__score__container {
     bottom: 1rem;
-    left: 2rem;
+    left: 2.5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -221,7 +243,18 @@
     padding: 0;
 
     p {
-      font-size: .9rem;
+      font-size: 1rem;
+    }
+  }
+
+  .play__score__container__capsules__time {
+    gap: .5rem;
+    align-items: center;
+  }
+
+  .play__score__container__time {
+    p {
+      font-size: 1.1rem;
     }
   }
 
@@ -247,6 +280,7 @@
     justify-content: space-between;
     bottom: 1.5rem;
     padding: 0 1rem;
+    z-index: 990;
   }
 
   .shoot__btn__mobile {
@@ -338,6 +372,7 @@
   .play__boss__bar {
     width: 80%;
     gap: .3;
+    top: 1.5rem;
 
     p {
       font-size: .9rem;
@@ -348,9 +383,10 @@
     }
   }
 
-  .play__endgame__modal__inner {
-    width: 80%;
+  .play__endgame__modal__inner, .play__wingame__modal__inner {
+    width: 85%;
     padding: 5% 0;
+    border-radius: 0 3rem 3rem 3rem;
 
     p {
       font-size: 2rem;

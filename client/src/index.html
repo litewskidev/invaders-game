@@ -73,7 +73,7 @@
       <nav class="home__nav__container">
         <div class="home__nav">
           <a href="#play" class="home-btn">PLAY</a>
-          <a href="#leaderboards" class="home-btn">LEADERBOARDS</a>
+          <a href="#leaderboards" class="home-btn">LEADERBOARD</a>
         </div>
         <div class="home__nav home__howto">
           <a href="#instructions" class="home-btn">HOW TO PLAY</a>
@@ -133,9 +133,9 @@
         <div class="play__wingame__modal__inner">
           <p>YOU WIN!</p>
           <form>
-            <input id="input-field-name" type="text" placeholder="NAME" />
+            <input id="input-field-name" type="text" placeholder="NAME" required/>
             <p id="field-score"></p>
-            <button id="add-score-button" type="submit">ADD</button>
+            <button id="add-score-button" type="submit">ADD TIME TO LEADERBOARD</button>
           </form>
         </div>
       </div>
@@ -145,7 +145,7 @@
   <script id="template__leaderboards__widget" type="text/x-handlebars-template">
     <section class="leaderboards__widget">
       <div class="leaderboards__title">
-        <h1>LEADERBOARDS</h1>
+        <h1>LEADERBOARD</h1>
       </div>
       <div class="leaderboards__container">
         <!-- LEADERBOARDS PAGE-->
@@ -223,20 +223,20 @@
           <div class="instructions__rules">
             <h2>RULES</h2>
             <div class="instructions__rules__inner">
-              <p>SHOOT ALIEN SHIPS TO COLLECT CAPSULES</p>
-              <p>COLLECT 50 CAPSULES TO LURE THE MOTHERSHIP</p>
-              <p>IF YOU COLLIDE WITH ALIEN PROJECTILE - YOU LOSE</p>
-              <p>IF YOU COLLIDE WITH ALIEN SHIP - YOU LOSE</p>
-              <p>EVERY ALIEN SHIP THAT PASS TROUGH YOU, WILL REDUCE TOWN RESILIENCE BAR</p>
-              <p>IF TOWN RESILIENCE BAR REACH ZERO - YOU LOSE</p>
-              <p></p>
+              <p><span>SHOOT</span> ALIEN SHIPS TO COLLECT CAPSULES</p>
+              <p><span>COLLECT</span> 50 CAPSULES TO LURE THE MOTHERSHIP</p>
+              <p>EVERY ALIEN SHIP THAT PASS TROUGH YOU</p>
+              <p>WILL <span>REDUCE</span> TOWN RESILIENCE BAR</p>
+              <p>IF TOWN RESILIENCE BAR REACH ZERO - <span>YOU LOSE</span></p>
+              <p>IF YOU COLLIDE WITH ALIEN PROJECTILE - <span>YOU LOSE</span></p>
+              <p>IF YOU COLLIDE WITH ALIEN SHIP - <span>YOU LOSE</span></p>
             </div>
           </div>
         </div>
         <div class="instructions__goal">
           <h2>GOAL</h2>
           <div class="instructions__goal__inner">
-            <p>DEFEND THE TOWN AND DEFEAT THE MOTHERSHIP IN THE SHORTEST POSSIBLE TIME.</p>
+            <p><span>DEFEND</span> THE TOWN AND <span>DEFEAT</span> THE MOTHERSHIP IN THE <span>SHORTEST</span> POSSIBLE TIME.</p>
           </div>
         </div>
       </div>

@@ -112,7 +112,7 @@ class Play {
     let townResilience = 20;
     const bossArray = [];
     bossArray.push(new Boss());
-    let bossHealth = 10;
+    let bossHealth = 800;
 
     //  BACKGROUND
     const background = [];
@@ -395,7 +395,7 @@ class Play {
 
       //  enemies
       if(game.start === true) {
-        if(score < 1) {
+        if(score < 50) {
           enemyGrids.forEach((grid, index) => {
             grid.update();
             if(frames % 150 === 0 && grid.enemies.length > 0) {
