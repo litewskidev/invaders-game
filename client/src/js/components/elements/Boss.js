@@ -12,7 +12,7 @@ class Boss {
       bossVel = 1.5;
     } else {
       scale = .80;
-      bossVel = 4;
+      bossVel = 3.5;
     }
 
     //  CANVAS
@@ -66,9 +66,9 @@ class Boss {
         thisBoss.draw();
         thisBoss.position.x += thisBoss.velocity.x;
         thisBoss.position.y += thisBoss.velocity.y;
-        if(thisBoss.position.x >= canvas.width || thisBoss.position.x <= 0 - thisBoss.width) {
+        if(thisBoss.position.x + thisBoss.width / 2 >= canvas.width || thisBoss.position.x <= 0 - thisBoss.width / 2) {
           thisBoss.velocity.x = -thisBoss.velocity.x;
-        } else if(thisBoss.position.y >= canvas.height || thisBoss.position.y <= 0 - thisBoss.height) {
+        } else if(thisBoss.position.y + thisBoss.height / 2 >= canvas.height || thisBoss.position.y <= 0 - thisBoss.height / 2) {
           thisBoss.velocity.y = -thisBoss.velocity.y;
         }
       }
