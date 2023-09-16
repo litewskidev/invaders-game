@@ -400,7 +400,7 @@ class Play {
             if(frames % 150 === 0 && grid.enemies.length > 0) {
               grid.enemies[Math.floor(Math.random() * grid.enemies.length)].shoot(enemyProjectiles);
             }
-            //  decrement score if enemy pass through the player
+            //  decrement town resilience if enemy pass through the player
             else if(grid.position.y > canvas.height) {
               setTimeout(() => {
                 enemyGrids.splice(index, 1);
@@ -444,14 +444,14 @@ class Play {
                   const projectileExist = projectiles.find(
                     wantedProjectile => wantedProjectile === projectile
                   );
-                  // remove enemies, projectiles & increment score
+                  // remove enemy, projectile & increment score
                   if(enemyExist && projectileExist) {
                     setTimeout(() => {
                       grid.enemies.splice(e, 1);
                       projectiles.splice(p, 1);
                     }, 0);
                     generateExplosions({ obj: enemy }, 15, '#141820', 1.5);  //  & generate explosion
-                    if(points.length < 1){  //  & generate points
+                    if(points.length < 1){  //  & generate point
                       points.push(new Point({
                         position: {
                           x: enemy.position.x,
