@@ -395,7 +395,7 @@ class Play {
 
       //  enemies
       if(game.start === true) {
-        if(score < 50) {
+        if(score < 30) {
           enemyGrids.forEach((grid, index) => {
             if(frames % 150 === 0 && grid.enemies.length > 0) {
               grid.enemies[Math.floor(Math.random() * grid.enemies.length)].shoot(enemyProjectiles);
