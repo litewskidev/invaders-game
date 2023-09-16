@@ -19,13 +19,13 @@ class EnemyGrid {
       enemyColumns = Math.floor(Math.random() * 4) + 2;
       enemyRows = Math.floor(Math.random() * 2) + 2;
       enemySpaceX = 55;
-      enemySpaceY = 50;
-      enemyVelocity = 2;
+      enemySpaceY = 55;
+      enemyVelocity = 1.5;
     } else {
       enemyColumns = Math.floor(Math.random() * 8) + 5;
       enemyRows = Math.floor(Math.random() * 2) + 2;
       enemySpaceX = 105;
-      enemySpaceY = 100;
+      enemySpaceY = 105;
       enemyVelocity = 4.5;
     }
 

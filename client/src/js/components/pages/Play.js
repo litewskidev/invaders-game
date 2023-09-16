@@ -124,10 +124,10 @@ class Play {
     let cloudsQty;
     let cloudsVel;
     if(window.innerWidth <= 540) {
-      cloudsQty = 15;
-      cloudsVel = .2;
+      cloudsQty = 10;
+      cloudsVel = .15;
     } else {
-      cloudsQty = 30;
+      cloudsQty = 20;
       cloudsVel = .3;
     }
     for(let b = 0; b < cloudsQty; b++) {
@@ -180,7 +180,7 @@ class Play {
       setTimeout(() => {
         game.active = false;
         endGameModal.classList.add('show');
-      }, 800);
+      }, 500);
     };
 
     //  CONTROLS
@@ -416,8 +416,8 @@ class Play {
               //  enemy collision with player
               if(enemy.position.y <= player.position.y + player.height
                 && enemy.position.y + enemy.height >= player.position.y
-                && enemy.position.x <= player.position.x + player.width
-                && enemy.position.x + enemy.width >= player.position.x
+                && (enemy.position.x + 20) <= player.position.x + player.width
+                && (enemy.position.x + 20) + (enemy.width - 20) >= player.position.x
               ){
                 const collisionExist = grid.enemies.find(
                   collisionEnemy => collisionEnemy === enemy
@@ -434,10 +434,10 @@ class Play {
               }
               //  enemies collision detection
               projectiles.forEach((projectile, p) => {
-                if(projectile.position.y <= enemy.position.y + enemy.height
-                && projectile.position.y + projectile.height >= enemy.position.y
-                && projectile.position.x <= enemy.position.x + enemy.width
-                && projectile.position.x + projectile.width >= enemy.position.x) {
+                if((projectile.position.y + 10) <= enemy.position.y + enemy.height
+                && (projectile.position.y + 10) + (projectile.height - 10) >= enemy.position.y
+                && (projectile.position.x + 10) <= enemy.position.x + enemy.width
+                && (projectile.position.x + 10) + (projectile.width - 10) >= enemy.position.x) {
                   const enemyExist = grid.enemies.find(
                     wantedEnemy => wantedEnemy === enemy
                   );
@@ -485,22 +485,22 @@ class Play {
               boss.shoot(enemyProjectiles);
             }
             projectiles.forEach((projectile, p) => {
-              if(projectile.position.y <= boss.position.y + boss.height / 2
-              && projectile.position.y + projectile.height >= boss.position.y
-              && projectile.position.x <= boss.position.x + boss.width
-              && projectile.position.x + projectile.width >= boss.position.x) {
+              if((projectile.position.y - 10) <= (boss.position.y + 10) + boss.height / 2
+              && (projectile.position.y - 10) + (projectile.height - 10) >= (boss.position.y + 10)
+              && (projectile.position.x + 10) <= (boss.position.x + 40) + (boss.width - 40)
+              && (projectile.position.x + 10) + (projectile.width - 10) >= (boss.position.x + 40)) {
                 setTimeout(() => {
                   projectiles.splice(p, 1);
                 }, 0);
                 bossHealth -= 5;
                 healthBar.value -= 5;
-                generateExplosions({ obj: boss }, 15, 'white', 1);
+                generateExplosions({ obj: boss }, 20, 'white', 1);
               }
             });
-            if(boss.position.y <= player.position.y + player.height
-              && boss.position.y + boss.height >= player.position.y
-              && boss.position.x <= player.position.x + player.width
-              && boss.position.x + boss.width >= player.position.x
+            if((boss.position.y + 10) <= player.position.y + player.height
+              && (boss.position.y + 10) + (boss.height - 10) >= player.position.y
+              && (boss.position.x + 40) <= player.position.x + player.width
+              && (boss.position.x + 40) + (boss.width - 40) >= player.position.x
             ){
               playerGameOver();
             }
@@ -515,7 +515,7 @@ class Play {
                 winGameModal.classList.add('show');
                 winTime.innerHTML = `${mins}:${secs}`;
                 winTime.value = `${mins}:${secs}`;
-              }, 800);
+              }, 500);
             }
           });
         }
@@ -526,10 +526,10 @@ class Play {
             setTimeout(() => {
               points.splice(index, 1);
             }, 0);
-          } else if(point.position.y + point.height >= player.position.y
-            && point.position.y <= player.position.y + player.height
-            && point.position.x <= player.position.x + player.width
-            && point.position.x + point.width >= player.position.x) {
+          } else if((point.position.y - 15) + (point.height - 15) >= player.position.y
+            && (point.position.y - 15) <= player.position.y + player.height
+            && (point.position.x + 15) <= player.position.x + player.width
+            && (point.position.x + 15) + (point.width - 15) >= player.position.x) {
             setTimeout(() => {
               points.splice(index, 1);
             }, 0);
@@ -561,10 +561,10 @@ class Play {
             enemyProjectile.update();
           }
           //  player collision detection & GAME OVER
-          if(enemyProjectile.position.y <= player.position.y + player.height
-          && enemyProjectile.position.y >= player.position.y
-          && enemyProjectile.position.x <= player.position.x + player.width
-          && enemyProjectile.position.x + enemyProjectile.width >= player.position.x) {
+          if((enemyProjectile.position.y - 10) <= player.position.y + player.height
+          && (enemyProjectile.position.y - 10) >= player.position.y
+          && (enemyProjectile.position.x + 10) <= player.position.x + player.width
+          && (enemyProjectile.position.x + 10) + (enemyProjectile.width -10) >= player.position.x) {
             setTimeout(() => {
               enemyProjectiles.splice(index, 1);
             }, 0);
@@ -578,7 +578,7 @@ class Play {
           setTimeout(() => {
             game.active = false;
             endGameModal.classList.add('show');
-          }, 800);
+          }, 500);
         }
 
         //  explosions
